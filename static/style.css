@@ -1,0 +1,108 @@
+h1{
+    font-family: 'Roboto', sans-serif;
+}
+h2{
+    font-family: 'Roboto', sans-serif;
+}
+h3{
+    font-family: 'Roboto', sans-serif;
+}
+h4{
+    font-family: 'Roboto', sans-serif;
+}
+p{
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    height:100%;
+    /*background-color:yellow;*/
+    display:flex;
+    flex-direction:column;
+}
+
+.area {
+    fill: steelblue;
+}
+
+.button{
+    font-family: 'Roboto', sans-serif;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.dashboard-title{
+    text-align: center;
+}
+
+.tabbable{
+    width: 100%;
+    /*background-color: blue;*/
+}
+
+.nav {
+    margin: 0 0 0 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 100%;
+    width: 100%;
+    overflow: hidden;
+    /*background-color: blue;*/
+    text-align: center;
+}
+
+.nav-tab > li {
+    width:15%;
+    float:none;
+    display:inline-block;
+    zoom:1;
+    /*background-color: pink;*/
+}
+
+.nav-tab {
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    /*background-color: yellow;*/
+}
+
+.row{
+    min-height:400px;
+    /*background-color:pink;*/
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.col-sm-4{
+    color:pink;
+}
+
+.col-sm-12{
+    /*background-color: blue;*/
+    height:auto;
+}
+
+.fullScreen{
+    display:block;
+    position:fixed;
+    z-index:1;
+    padding-top:100px;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    background-color:#000;
+}

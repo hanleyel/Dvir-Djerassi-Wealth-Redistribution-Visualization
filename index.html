@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+    <link rel="stylesheet" href="./static/style.css">
+    <title>Wealth Inequality</title>
+</head>
+<body>
+<div class="dashboard-title">
+    <h1>100% Wealth Tax on All Fortunes Over $100 Million</h1>
+    <h4>Wealth inequality in the United States is dramatic.</br>This interactive tool outlines the potential
+    consequences of a radical wealth redistribution program.</h4>
+</div>
+<div class="row">
+<!--    <div class="col-sm-4">-->
+<!--        <p>test</p>-->
+<!--    </div>-->
+<!--    <div class="col-sm-8">-->
+    <div class="col-sm-12">
+        <div class="tabbable">
+            <ul class="nav nav-tab" role="tablist">
+                <li class="" role="presentation">
+                    <a id="ui-tab-1" href="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
+                </li>
+                <li class="" role="presentation">
+                    <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Top 10% Share Over Time</a>
+                </li>
+                <li class="" role="presentation">
+                    <a id="ui-tab-3" href="#tab-3" data-toggle="tab" data-value="">Top 1% Share Over Time</a>
+                </li>
+                <li class="" role="presentation">
+                    <a id="ui-tab-4" href="#tab-4" data-toggle="tab" data-value="">Aggregates</a>
+                </li>
+                <li class="" role="presentation">
+                    <a id="ui-tab-5" href="#tab-5" data-toggle="tab" data-value="">Share of Wealth</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div><p>This simulated wealth tax would raise {$dollars} in {$year}.</br>
+                This program would provide a wealth endowment of {$dollars} per person in {$year}.</p></div>
+                <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1"><p></p></div>
+                <div id="tab-2" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-2"><p></p></div>
+                <div id="tab-3" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-3"><p></p></div>
+                <div id="tab-4" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-4"><p></p></div>
+                <div id="tab-5" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-5"><p></p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    // Load data from Github
+    var files = ["https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
+    "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/2019_scf_w_forbes.csv",
+    "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/forbes_400.csv",
+    "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf_2019.csv",
+    "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf.csv",
+    "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv"]
+    var promises = [];
+    files.forEach(function(url){
+        promises.push(d3.csv(url))
+    });
+    Promise.all(promises).then(function([percentiles_data,scf_forbes_data, forbes_400_data, scf_2019_data,scf_data,
+    wealth_tax_revenue_data]){
+
+        // Set constants
+        const margin = {top: 10, right: 50, bottom: 30, left: 80}
+        // Gets width and height based on div size
+        const width = d3.select('.col-sm-12').node().getBoundingClientRect().width - margin.left - margin.right;
+        const height = d3.select('.col-sm-12').node().getBoundingClientRect().height - margin.top - margin.bottom;
+
+        // parse the date / time
+        var parseTime = d3.timeParse("%Y");
+
+        // format the data
+        percentiles_data.forEach(function(d) {
+            d.Year = parseInt(d.Year);
+            d.Year_timeparsed = parseTime(d.Year);
+            d.Networth = parseInt(d.Networth);
+            d.Percentiles = parseInt(d.Percentiles*100)
+        });
+
+        // Unique years for data collections
+        let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
+        let networth = percentiles_data.map(d=>d["Networth"]).sort();
+        let percentiles = percentiles_data.map(d=>d["Percentiles"]).sort();
+
+        // Append tooltip div to body
+        let div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // Mouseover etc. tooltip code to add to functions later
+        // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+        //     .on("mousemove", function(){return tooltip.style("top",
+        //         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+        //     .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+
+        // Append SVGs to tab-content to draw charts
+        d3.select("#tab-1").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "svg-1")
+            .attr("class","fullScreen");
+        d3.select("#tab-2").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "svg-2");
+        d3.select("#tab-3").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "svg-3");
+
+        // Append chart export button to body
+        let exportButton = d3.select(".tab-content").append("button")
+            .attr("id", "saveButton")
+            .text("Export as PNG");
+
+        // Functions to draw and update axes
+        function updateXAxis(data, svg_id, parse_time){
+            var x = d3.scaleLinear().domain([d3.min(data), d3.max(data)]).range([0, width]);
+            if (parse_time===true){
+                console.log('parse time');
+                d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")))}
+            else{
+                console.log('no parse');
+                d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x))}
+            return x
+        }
+
+        function updateYAxis(data, svg_id){
+            console.log("max networth", d3.max(data));
+            var y = d3.scaleLinear().domain([d3.min(data),d3.max(data)]).range([height,0]);
+            d3.select(svg_id).append("g").attr("transform", "translate(0, 0)").call(d3.axisLeft(y));
+            return y
+        }
+
+        //Functions to draw charts
+        // Function to draw line charts
+        function drawLineChart(data, svg, x_axis_var=years, y_axis_var=networth,
+                               x_axis_val="Year", y_axis_val="Networth",
+                               filter_var="Percentiles", filter_value=9, parse_time=false,
+        area_chart=false){
+            var x = updateXAxis(x_axis_var, svg, parse_time);
+            var y = updateYAxis(y_axis_var, svg, parse_time);
+
+            // Define the area under the line
+            // define the area
+            var area = d3.area()
+                .x(function(d) { return x(d[x_axis_val]); })
+                .y0(height)
+                .y1(function(d) { return y(d[y_axis_val]); });
+
+            // Add the line
+            d3.select(svg).append("path")
+                .datum(data.filter(function(d) {
+                    return d[filter_var] === filter_value })) // example group
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) {
+                        console.log('drawing x');
+                        return x(d[x_axis_val])})
+                    .y(function(d) { return y(d[y_axis_val])})
+                );
+            if (area_chart === true){
+                d3.select(svg).selectAll("path")
+                    .datum(data.filter(function(d) {
+                        return d[filter_var] === filter_value })) // example group
+                    .attr("class", "area")
+                    .attr("d", area);
+            }
+
+
+        }
+
+        // Function to draw ski slope chart
+        function drawSkislopeChart(){
+            console.log('ski slope chart')
+        }
+
+        // Function to draw tables
+        function drawTable(data, svg, table_id, columns, percentile){
+            var table = d3.select(svg).append('table')
+            var thead = table.append('thead')
+            var	tbody = table.append('tbody');
+
+            // append the header row
+            thead.append('tr')
+                .selectAll('th')
+                .data(columns).enter()
+                .append('th')
+                .text(function (column) { return column; });
+
+            // create a row for each object in the data
+            var rows = tbody.selectAll('tr')
+                .data(data.filter(function(d) { return d["Percentiles"] === percentile }))
+                .enter()
+                .append('tr');
+
+            // create a cell in each row for each column
+            var cells = rows.selectAll('td')
+                .data(function (row) {
+                    return columns.map(function (column) {
+                        return {column: column, value: row[column]};
+                    });
+                })
+                .enter()
+                .append('td')
+                .text(function (d) { return d.value; });
+
+            return table;
+        }
+
+        // Function to get svg string for chart export
+        function getSVGString(svgNode){
+            svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
+            var cssStyleText = getCSSStyles(svgNode);
+            appendCSS(cssStyleText, svgNode);
+
+            var serializer = new XMLSerializer();
+            var svgString = serializer.serializeToString(svgNode);
+            svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
+            svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
+
+            return svgString;
+
+        }
+
+        // Function to get css styles for chart export
+        function getCSSStyles( parentElement ) {
+            var selectorTextArr = [];
+
+            // Add Parent element Id and Classes to the list
+            selectorTextArr.push( '#'+parentElement.id );
+            for (var c = 0; c < parentElement.classList.length; c++)
+                if ( !contains('.'+parentElement.classList[c], selectorTextArr) )
+                    selectorTextArr.push( '.'+parentElement.classList[c] );
+
+            // Add Children element Ids and Classes to the list
+            var nodes = parentElement.getElementsByTagName("*");
+            for (var i = 0; i < nodes.length; i++) {
+                var id = nodes[i].id;
+                if ( !contains('#'+id, selectorTextArr) )
+                    selectorTextArr.push( '#'+id );
+
+                var classes = nodes[i].classList;
+                for (var c = 0; c < classes.length; c++)
+                    if ( !contains('.'+classes[c], selectorTextArr) )
+                        selectorTextArr.push( '.'+classes[c] );
+            }
+
+            // Extract CSS Rules
+            var extractedCSSText = "";
+            for (var i = 0; i < document.styleSheets.length; i++) {
+                var s = document.styleSheets[i];
+
+                try {
+                    if(!s.cssRules) continue;
+                } catch( e ) {
+                    if(e.name !== 'SecurityError') throw e; // for Firefox
+                    continue;
+                }
+
+                var cssRules = s.cssRules;
+                for (var r = 0; r < cssRules.length; r++) {
+                    if ( contains( cssRules[r].selectorText, selectorTextArr ) )
+                        extractedCSSText += cssRules[r].cssText;
+                }
+            }
+            return extractedCSSText;
+
+            function contains(str,arr) {
+                return arr.indexOf( str ) === -1 ? false : true;
+            }
+        }
+
+        // Function to add css styles to chart export
+        function appendCSS( cssText, element ) {
+            var styleElement = document.createElement("style");
+            styleElement.setAttribute("type","text/css");
+            styleElement.innerHTML = cssText;
+            var refNode = element.hasChildNodes() ? element.children[0] : null;
+            element.insertBefore( styleElement, refNode );
+            }
+
+        // Function to convert chart format to export format
+            function svgString2Image( svgString, width, height, format, callback ) {
+            var format = format ? format : 'png';
+            var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
+            var canvas = document.createElement("canvas");
+            var context = canvas.getContext("2d");
+            canvas.width = width;
+            canvas.height = height;
+
+            var image = new Image();
+            image.onload = function() {
+                context.clearRect ( 0, 0, width, height );
+                context.drawImage(image, 0, 0, width, height);
+                canvas.toBlob( function(blob) {
+                    var filesize = Math.round( blob.length/1024 ) + ' KB';
+                    if ( callback ) callback( blob, filesize );
+                });
+            };
+            image.src = imgsrc;
+        }
+
+        // Function to export selected image on export button click
+        function exportImage(image_id){
+            d3.select('#saveButton').on('click', function(){
+                let svgString = getSVGString(document.getElementById(image_id));
+                svgString2Image(svgString, 2*width, 2*height, 'png', save); // passes Blob and filesize String to the callback
+
+                function save(dataBlob, filesize){
+                    saveAs(dataBlob, 'D3 vis exported to PNG.png'); // FileSaver.js function
+                }
+            });
+        }
+
+
+
+        // Run Code
+        drawLineChart(data=percentiles_data, svg="#svg-1", x_axis_var=percentiles, y_axis_var=networth,
+            x_axis_val="Percentiles", y_axis_val="Networth", filter_var="Year", filter_value=2019, parse_time=false, area_chart=true);
+        drawLineChart(percentiles_data, "#svg-2", x_axis_var=years, y_axis_var=networth,
+            x_axis_val="Year_timeparsed", y_axis_val="Networth", filter_var="Percentiles", filter_value=9, parse_time=true);
+        drawLineChart(percentiles_data, "#svg-3", x_axis_var=years, y_axis_var=networth,
+            x_axis_val="Year_timeparsed", y_axis_val="Networth", filter_var="Percentiles", filter_value=99, parse_time=true);
+        drawSkislopeChart();
+        drawTable(percentiles_data, "#tab-4", "aggregate-table", ["Year","Networth"], 9);
+        drawTable(percentiles_data, "#tab-5", "aggregate-table", ["Year","Networth"], 99);
+        // exportImage("svg-2");
+
+    }); //end data
+
+
+</script>
+</body>
+</html>
