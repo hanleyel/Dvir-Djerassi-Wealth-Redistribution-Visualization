@@ -71,6 +71,7 @@
     files.forEach(function(url){
         promises.push(d3.csv(url))
     });
+    // The parameter functions here are the names of the datasets
     Promise.all(promises).then(function([percentiles_data,scf_forbes_data, forbes_400_data, scf_2019_data,scf_data,
     wealth_tax_revenue_data]){
 
@@ -90,11 +91,16 @@
             d.Networth = parseInt(d.Networth);
             d.Percentiles = parseInt(d.Percentiles*100)
         });
+        wealth_tax_revenue_data.forEach(function(d){
+            d.Year = parseInt(d.Year);
+           d.Year_timeparsed = parseTime(d.Year);
+        });
 
-        // Unique years for data collections
+        // Unique values for scaling axes
         let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
         let networth = percentiles_data.map(d=>d["Networth"]).sort();
         let percentiles = percentiles_data.map(d=>d["Percentiles"]).sort();
+        let overall_share = Array.from({length:11},(x,i)=>(i/10));
 
         // Append tooltip div to body
         let div = d3.select("body").append("div")
@@ -201,7 +207,7 @@
         }
 
         // Function to draw tables
-        function drawTable(data, svg, table_id, columns, percentile){
+        function drawTable(data, svg, table_id, columns, filter_var, filter_value){
             var table = d3.select(svg).append('table')
             var thead = table.append('thead')
             var	tbody = table.append('tbody');
@@ -215,7 +221,7 @@
 
             // create a row for each object in the data
             var rows = tbody.selectAll('tr')
-                .data(data.filter(function(d) { return d["Percentiles"] === percentile }))
+                .data(data.filter(function(d) { return d[filter_var] === filter_value }))
                 .enter()
                 .append('tr');
 
@@ -341,15 +347,60 @@
 
 
         // Run Code
-        drawLineChart(data=percentiles_data, svg="#svg-1", x_axis_var=percentiles, y_axis_var=networth,
-            x_axis_val="Percentiles", y_axis_val="Networth", filter_var="Year", filter_value=2019, parse_time=false, area_chart=true);
-        drawLineChart(percentiles_data, "#svg-2", x_axis_var=years, y_axis_var=networth,
-            x_axis_val="Year_timeparsed", y_axis_val="Networth", filter_var="Percentiles", filter_value=9, parse_time=true);
-        drawLineChart(percentiles_data, "#svg-3", x_axis_var=years, y_axis_var=networth,
-            x_axis_val="Year_timeparsed", y_axis_val="Networth", filter_var="Percentiles", filter_value=99, parse_time=true);
-        drawSkislopeChart();
-        drawTable(percentiles_data, "#tab-4", "aggregate-table", ["Year","Networth"], 9);
-        drawTable(percentiles_data, "#tab-5", "aggregate-table", ["Year","Networth"], 99);
+        drawLineChart(
+            data=percentiles_data,
+            svg="#svg-1",
+            x_axis_var=percentiles,
+            y_axis_var=networth,
+            x_axis_val="Percentiles",
+            y_axis_val="Networth",
+            filter_var="Year",
+            filter_value=2019,
+            parse_time=false,
+            area_chart=true);
+
+        drawLineChart(
+            data=wealth_tax_revenue_data,
+            svg="#svg-2",
+            x_axis_var=years,
+            y_axis_var=overall_share,
+            x_axis_val="Year_timeparsed",
+            y_axis_val="Pre.Tax.Top.10..Share",
+            filter_var="Tax.Rate",
+            filter_value="1",
+            parse_time=true);
+
+        drawLineChart(
+            data=wealth_tax_revenue_data,
+            svg="#svg-3",
+            x_axis_var=years,
+            y_axis_var=overall_share,
+            x_axis_val="Year_timeparsed",
+            y_axis_val="Pre.Tax.Top.1..Share",
+            filter_var="Tax.Rate",
+            filter_value="1",
+            parse_time=true);
+
+        drawTable(
+            data=wealth_tax_revenue_data,
+            svg="#tab-4",
+            table_id="aggregate-table",
+            columns=["Year","Taxable.Wealth.Threshold","Taxable.Wealth","Wealth.Tax.Revenue","Total.Net.Private.Wealth",
+                "Wealth.Endowment.Per.Person"],
+            filter_var="Tax.Rate",
+            filter_value="1");
+
+        drawTable(
+            data=wealth_tax_revenue_data,
+            svg="#tab-5",
+            table_id="aggregate-table",
+            columns=["Year","Pre.Tax.Top.10..Share", "Post.Tax.Top.10..Share",
+                "Post.Tax.and.Post.Transfer.Top.10..Share",
+            "Pre.Tax.Top.1..Share", "Post.Tax.Top.1..Share",
+            "Post.Tax.and.Post.Transfer.Top.10..Share"],
+            filter_var="Tax.Rate",
+            filter_value="1");
+
         // exportImage("svg-2");
 
     }); //end data
