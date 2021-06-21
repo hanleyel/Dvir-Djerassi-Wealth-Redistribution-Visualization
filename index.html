@@ -16,22 +16,26 @@
     <link rel="stylesheet" href="./static/style.css">
     <title>Wealth Inequality</title>
 </head>
-<body>
-<div class="dashboard-title">
+<body class="container-fluid p-0">
+<div class="dashboard-title container col-sm-12 mr-0">
     <h1>100% Wealth Tax on All Fortunes Over $100 Million</h1>
     <h4>Wealth inequality in the United States is dramatic.</br>This interactive tool outlines the potential
     consequences of a radical wealth redistribution program.</h4>
 </div>
-<div class="row">
-<!--    <div class="col-sm-4">-->
-<!--        <p>test</p>-->
-<!--    </div>-->
-<!--    <div class="col-sm-8">-->
-    <div class="col-sm-12">
-        <div class="tabbable">
+<div class="row container-fluid">
+    <div class="col-sm-2">
+        <div class="filter-container mr-0">
+            <div class="filter-card">Filter Card</div>
+            <div class="filter-card">Filter Card</div>
+            <div class="filter-card">Filter Card</div>
+            <div class="filter-card">Filter Card</div>
+        </div>
+    </div>
+    <div class="col-sm-10 mr-0">
+        <div class="tabbable container mr-0">
             <ul class="nav nav-tab" role="tablist">
                 <li class="" role="presentation">
-                    <a id="ui-tab-1" href="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
+                    <a id="ui-tab-1" class="active" href="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
                 </li>
                 <li class="" role="presentation">
                     <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Top 10% Share Over Time</a>
@@ -60,6 +64,12 @@
 </div>
 <script>
 
+    // Change active tab on click
+    $('.nav-tab li').on('click', function(){
+        $('.nav-tab .active').remove_class('active');
+        $(this).add_class('active');
+    });
+
     // Load data from Github
     var files = ["https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
     "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/2019_scf_w_forbes.csv",
@@ -78,8 +88,8 @@
         // Set constants
         const margin = {top: 10, right: 50, bottom: 30, left: 80}
         // Gets width and height based on div size
-        const width = d3.select('.col-sm-12').node().getBoundingClientRect().width - margin.left - margin.right;
-        const height = d3.select('.col-sm-12').node().getBoundingClientRect().height - margin.top - margin.bottom;
+        const width = d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right;
+        const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
 
         // parse the date / time
         var parseTime = d3.timeParse("%Y");
