@@ -26,7 +26,7 @@
     <div class="col-sm-2">
         <div class="filter-container mr-0">
             <div class="filter-card">
-                <p>Grant Size</p>
+                <p><b>Grant Size</b></p>
                 <form>
                     <input type="radio" id="grant-fifteen" name="grant-size" value="grant-fifteen">
                     <label for="grant-fifteen">$15,000</label><br>
@@ -37,14 +37,33 @@
                 </form>
             </div>
             <div class="filter-card">
-                <p>Rate of Return</p>
+                <p><b>Rate of Return</b></p>
+                <form>
+                    <input type="radio" id="return-one" name="return-size" value="return-one">
+                    <label for="return-one">1%</label><br>
+                    <input type="radio" id="return-three" name="return-size" value="return-three">
+                    <label for="return-three">3%</label><br>
+                    <input type="radio" id="return-real" name="return-size" value="return-real">
+                    <label for="return-real">Real Rate of Return</label>
+                </form>
             </div>
             <div class="filter-card">
-                <p>Revenue-Neutral Wealth Tax</p>
+                <p><b>Revenue-Neutral Wealth Tax</b></p>
+                <p>[TBD]</p>
+                <div>
+<!--                    <form>-->
+<!--                        <input type="radio" id="" name="grant-size" value="grant-fifteen">-->
+<!--                        <label for="grant-fifteen">$15,000</label><br>-->
+<!--                        <input type="radio" id="grant-thirty" name="grant-size" value="grant-thirty">-->
+<!--                        <label for="grant-thirty">$30,000</label><br>-->
+<!--                        <input type="radio" id="grant-fifty" name="grant-size" value="grant-fifty">-->
+<!--                        <label for="grant-fifty">$50,000</label>-->
+<!--                    </form>-->
+                </div>
             </div>
-            <div class="filter-card">
-                <p>Filter Card</p>
-            </div>
+<!--            <div class="filter-card">-->
+<!--                <p>Filter Card</p>-->
+<!--            </div>-->
         </div>
     </div>
     <div class="col-sm-10 mr-0">
@@ -82,8 +101,8 @@
 
     // Change active tab on click
     $('.nav-tab li').on('click', function(){
-        $('.nav-tab .active').remove_class('active');
-        $(this).add_class('active');
+        $('.nav-tab .active').removeClass('active');
+        $(this).addClass('active');
     });
 
     // Load data from Github
@@ -225,6 +244,11 @@
             }
 
 
+        }
+
+        // Function to remove line chart
+        function removeLineChart(svg){
+            d3.select(svg).selectAll("path").remove();
         }
 
         // Function to draw ski slope chart
@@ -373,6 +397,18 @@
 
 
         // Run Code
+        // Get radio button values for filtering data
+        let grant_size = d3.selectAll("input[name='grant-size']").on("click", function(){
+            console.log(this.value);
+            // removeLineChart(svg="#svg-1");
+            return this.value;
+        });
+
+        let return_size = d3.selectAll("input[name='return-size']").on("click", function(){
+            console.log(this.value);
+            return this.value;
+        });
+
         drawLineChart(
             data=percentiles_data,
             svg="#svg-1",
