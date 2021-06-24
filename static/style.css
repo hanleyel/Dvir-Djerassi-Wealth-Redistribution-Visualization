@@ -48,6 +48,8 @@ body{
     background-color:white;
     margin-left:.5rem;
     box-shadow:1px 2px 5px 1px 	#D3D3D3;
+    border-radius:3px;
+    padding:5px;
 }
 
 div.tooltip {
@@ -78,6 +80,8 @@ div.tooltip {
     height:100%;
     background-color: white;
     box-shadow:1px 2px 5px 1px 	#D3D3D3;
+    border-radius: 3px;
+    padding-bottom:10px;
 }
 
 .nav {
@@ -95,12 +99,12 @@ div.tooltip {
     float:none;
     display:inline-block;
     zoom:1;
-    background-color: pink;
+    /*background-color: pink;*/
     text-align:center;
-    /*padding-top:10px;*/
-    /*padding-right:15px;*/
-    /*padding-bottom:10px;*/
-    /*padding-left:15px;*/
+    padding-top:10px;
+    padding-right:15px;
+    padding-bottom:10px;
+    padding-left:15px;
 }
 
 li .active{
@@ -110,6 +114,8 @@ li .active{
     display:inline-block;
     zoom:1;
     background-color:white;
+    box-shadow:1px 2px 5px 1px 	#D3D3D3;
+    border-radius:3px;
 }
 
 .nav-tab {

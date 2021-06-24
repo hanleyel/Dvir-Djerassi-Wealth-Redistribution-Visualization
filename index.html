@@ -185,6 +185,7 @@
         // Append chart export button to body
         let exportButton = d3.select(".tab-content").append("button")
             .attr("id", "saveButton")
+            .attr("class", "btn btn-secondary")
             .text("Export as PNG");
 
         // Functions to draw and update axes
@@ -409,6 +410,7 @@
             return this.value;
         });
 
+        // Ski slope chart
         drawLineChart(
             data=percentiles_data,
             svg="#svg-1",
