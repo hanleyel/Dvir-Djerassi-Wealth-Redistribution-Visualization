@@ -51,14 +51,28 @@
                 <p><b>Revenue-Neutral Wealth Tax</b></p>
                 <p>[TBD]</p>
                 <div>
-<!--                    <form>-->
-<!--                        <input type="radio" id="" name="grant-size" value="grant-fifteen">-->
-<!--                        <label for="grant-fifteen">$15,000</label><br>-->
-<!--                        <input type="radio" id="grant-thirty" name="grant-size" value="grant-thirty">-->
-<!--                        <label for="grant-thirty">$30,000</label><br>-->
-<!--                        <input type="radio" id="grant-fifty" name="grant-size" value="grant-fifty">-->
-<!--                        <label for="grant-fifty">$50,000</label>-->
-<!--                    </form>-->
+                </div>
+            </div>
+            <div class="filter-card">
+                <p><b>Year</b></p>
+                <div>
+                    <label for="years">Choose a year:</label>
+                    <select name="years" id="years">
+                        <option value="TBD">[TBD]</option>
+                        <option value="1989">1989</option>
+                        <option value="2019">2019</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-card">
+                <p><b>Wealth Distribution</b></p>
+                <div>
+                    <input type="radio" id="current-wealth-dist" name="wealth-dist" value="Networth">
+                    <label for="current-wealth-dist">Current</label><br>
+                    <input type="radio" id="post-tax-post-transfer" name="wealth-dist" value="Post-Tax and Post-Transfer">
+                    <label for="post-tax-post-transfer">Post-Tax&Transfer</label><br>
+                    <input type="radio" id="post-tax" name="wealth-dist" value="Post-Tax">
+                    <label for="post-tax">Post-Tax</label>
                 </div>
             </div>
 <!--            <div class="filter-card">-->
@@ -148,15 +162,9 @@
         let overall_share = Array.from({length:11},(x,i)=>(i/10));
 
         // Append tooltip div to body
-        let div = d3.select("body").append("div")
+        let tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-
-        // Mouseover etc. tooltip code to add to functions later
-        // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-        //     .on("mousemove", function(){return tooltip.style("top",
-        //         (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-        //     .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
         // Append SVGs to tab-content to draw charts
         d3.select("#tab-1").append("svg")
@@ -235,7 +243,11 @@
                         console.log('drawing x');
                         return x(d[x_axis_val])})
                     .y(function(d) { return y(d[y_axis_val])})
-                );
+                )
+                .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+                .on("mousemove", function(){return tooltip.style("top",
+                        (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
             if (area_chart === true){
                 d3.select(svg).selectAll("path")
                     .datum(data.filter(function(d) {
@@ -401,7 +413,6 @@
         // Get radio button values for filtering data
         let grant_size = d3.selectAll("input[name='grant-size']").on("click", function(){
             console.log(this.value);
-            // removeLineChart(svg="#svg-1");
             return this.value;
         });
 
@@ -409,6 +420,43 @@
             console.log(this.value);
             return this.value;
         });
+
+        let year = d3.selectAll("select[name='years']").on("change", function(){
+            year = parseInt(this.value);
+            console.log(year);
+            removeLineChart(svg="#svg-1");
+            console.log(year);
+            drawLineChart(
+                data=percentiles_data,
+                svg="#svg-1",
+                x_axis_var=percentiles,
+                y_axis_var=networth,
+                x_axis_val="Percentiles",
+                y_axis_val="Networth",
+                filter_var="Year",
+                filter_value=year,
+                parse_time=false,
+                area_chart=true);
+            return this.value;
+        });
+
+        let wealth_dist = d3.selectAll("input[name='wealth-dist'").on("click",function(){
+            wealth_dist = this.value;
+            console.log(wealth_dist);
+            removeLineChart(svg="svg-1");
+            drawLineChart(
+                data=percentiles_data,
+                svg="#svg-1",
+                x_axis_var=percentiles,
+                y_axis_var=networth,
+                x_axis_val="Percentiles",
+                y_axis_val=wealth_dist,
+                filter_var="Year",
+                filter_value=2019,
+                parse_time=false,
+                area_chart=true);
+            return this.value;
+        })
 
         // Ski slope chart
         drawLineChart(
