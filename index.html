@@ -164,7 +164,8 @@
         // Append tooltip div to body
         let tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
-            .style("opacity", 0);
+            .style("opacity", 0)
+            .text('tooltip');
 
         // Append SVGs to tab-content to draw charts
         d3.select("#tab-1").append("svg")
@@ -233,21 +234,49 @@
 
             // Add the line
             d3.select(svg).append("path")
-                .datum(data.filter(function(d) {
+                .data(data.filter(function(d) {
                     return d[filter_var] === filter_value })) // example group
                 .attr("fill", "none")
                 .attr("stroke", "steelblue")
                 .attr("stroke-width", 1.5)
                 .attr("d", d3.line()
-                    .x(function(d) {
-                        console.log('drawing x');
-                        return x(d[x_axis_val])})
+                    .x(function(d) {return x(d[x_axis_val])})
                     .y(function(d) { return y(d[y_axis_val])})
-                )
-                .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-                .on("mousemove", function(){return tooltip.style("top",
-                        (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+                );
+            // Add invisible circles for tooltip (doesn't work well on path)
+            d3.select(svg).selectAll("circle")
+                .data(data.filter(function(d) {
+                    return d[filter_var] === filter_value })) // example group
+                .enter().append("circle")
+                .attr("r",5)
+                .attr("cx", function(d){
+                    return x(d[x_axis_val])})
+                .attr("cy", function(d){
+                    return y(d[y_axis_val])})
+                .style("fill","none")
+                .style("stroke","none")
+                .style("pointer-events","all")
+                .on("mouseover", function(event, d) {
+                    console.log(d);
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(d[y_axis_val])
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+                // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+                // .on("mousemove", function(){
+                //     console.log('tooltip!')
+                //     return tooltip.style("top",
+                //         (event.pageY)+"px").style("left",(event.pageX)+"px");}).text('asdf')
+                // .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
             if (area_chart === true){
                 d3.select(svg).selectAll("path")
                     .datum(data.filter(function(d) {
