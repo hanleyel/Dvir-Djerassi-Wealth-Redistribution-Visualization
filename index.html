@@ -25,7 +25,7 @@
 <div class="row container-fluid">
     <div class="col-sm-2">
         <div class="filter-container mr-0">
-            <div class="filter-card">
+            <div class="filter-card tab-pane" id="filter-1">
                 <p><b>Grant Size</b></p>
                 <form>
                     <input type="radio" id="grant-fifteen" name="grant-size" value="grant-fifteen">
@@ -36,7 +36,7 @@
                     <label for="grant-fifty">$50,000</label>
                 </form>
             </div>
-            <div class="filter-card">
+            <div class="filter-card tab-pane" id="filter-2">
                 <p><b>Rate of Return</b></p>
                 <form>
                     <input type="radio" id="return-one" name="return-size" value="return-one">
@@ -47,13 +47,13 @@
                     <label for="return-real">Real Rate of Return</label>
                 </form>
             </div>
-            <div class="filter-card">
+            <div class="filter-card tab-pane" id="filter-3">
                 <p><b>Revenue-Neutral Wealth Tax</b></p>
                 <p>[TBD]</p>
                 <div>
                 </div>
             </div>
-            <div class="filter-card">
+            <div class="filter-card tab-pane" id="filter-4">
                 <p><b>Year</b></p>
                 <div>
                     <label for="years">Choose a year:</label>
@@ -64,10 +64,10 @@
                     </select>
                 </div>
             </div>
-            <div class="filter-card">
+            <div class="filter-card tab-pane" id="filter-5">
                 <p><b>Wealth Distribution</b></p>
                 <div>
-                    <input type="radio" id="current-wealth-dist" name="wealth-dist" value="Networth">
+                    <input type="radio" class="tab-pane" id="current-wealth-dist" name="wealth-dist" value="Networth">
                     <label for="current-wealth-dist">Current</label><br>
                     <input type="radio" id="post-tax-post-transfer" name="wealth-dist" value="Post-Tax and Post-Transfer">
                     <label for="post-tax-post-transfer">Post-Tax&Transfer</label><br>
@@ -83,19 +83,19 @@
     <div class="col-sm-10 mr-0">
         <div class="tabbable container mr-0">
             <ul class="nav nav-tab" role="tablist">
-                <li class="" role="presentation">
-                    <a id="ui-tab-1" class="active" href="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
+                <li class="" id="li-tab-1" role="presentation">
+                    <a id="ui-tab-1" class="active" href="#tab-1" data-target="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
                 </li>
-                <li class="" role="presentation">
+                <li class="" id="li-tab-2" role="presentation">
                     <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Top 10% Share Over Time</a>
                 </li>
-                <li class="" role="presentation">
+                <li class="" id="li-tab-3" role="presentation">
                     <a id="ui-tab-3" href="#tab-3" data-toggle="tab" data-value="">Top 1% Share Over Time</a>
                 </li>
-                <li class="" role="presentation">
+                <li class="" id="li-tab-4" role="presentation">
                     <a id="ui-tab-4" href="#tab-4" data-toggle="tab" data-value="">Aggregates</a>
                 </li>
-                <li class="" role="presentation">
+                <li class="" id="li-tab-5" role="presentation">
                     <a id="ui-tab-5" href="#tab-5" data-toggle="tab" data-value="">Share of Wealth</a>
                 </li>
             </ul>
@@ -113,10 +113,39 @@
 </div>
 <script>
 
-    // Change active tab on click
+    // Change which chart shows and which filter cards show on click
     $('.nav-tab li').on('click', function(){
         $('.nav-tab .active').removeClass('active');
         $(this).addClass('active');
+        if (this.id === "li-tab-1"){
+            $("#filter-1").css('display','block');
+            $("#filter-2").css('display','block');
+            $("#filter-3").css('display','block');
+            $("#filter-4").css('display','block');
+            $("#filter-5").css('display','block');
+
+        }
+        else if ((this.id === "li-tab-2")||(this.id==="li-tab-3")){
+            $("#filter-1").css('display','none');
+            $("#filter-2").css('display','none');
+            $("#filter-3").css('display','none');
+            $("#filter-4").css('display','none');
+            $("#filter-5").css('display','block');
+        }
+        else if ((this.id === "li-tab-4")||(this.id==="li-tab-5")){
+            $("#filter-1").css('display','none');
+            $("#filter-2").css('display','none');
+            $("#filter-3").css('display','none');
+            $("#filter-4").css('display','none');
+            $("#filter-5").css('display','none');
+        }
+        else{
+            $("#filter-1").css('display','none');
+            $("#filter-2").css('display','none');
+            $("#filter-3").css('display','none');
+            $("#filter-4").css('display','none');
+            $("#filter-5").css('display','none');
+        }
     });
 
     // Load data from Github
@@ -201,16 +230,13 @@
         function updateXAxis(data, svg_id, parse_time){
             var x = d3.scaleLinear().domain([d3.min(data), d3.max(data)]).range([0, width]);
             if (parse_time===true){
-                console.log('parse time');
                 d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")))}
             else{
-                console.log('no parse');
                 d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x))}
             return x
         }
 
         function updateYAxis(data, svg_id){
-            console.log("max networth", d3.max(data));
             var y = d3.scaleLinear().domain([d3.min(data),d3.max(data)]).range([height,0]);
             d3.select(svg_id).append("g").attr("transform", "translate(0, 0)").call(d3.axisLeft(y));
             return y
@@ -234,7 +260,7 @@
 
             // Add the line
             d3.select(svg).append("path")
-                .data(data.filter(function(d) {
+                .datum(data.filter(function(d) {
                     return d[filter_var] === filter_value })) // example group
                 .attr("fill", "none")
                 .attr("stroke", "steelblue")
@@ -271,12 +297,6 @@
                         .style("opacity", 0);
                 });
 
-                // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-                // .on("mousemove", function(){
-                //     console.log('tooltip!')
-                //     return tooltip.style("top",
-                //         (event.pageY)+"px").style("left",(event.pageX)+"px");}).text('asdf')
-                // .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
             if (area_chart === true){
                 d3.select(svg).selectAll("path")
                     .datum(data.filter(function(d) {
@@ -440,16 +460,20 @@
 
         // Run Code
         // Get radio button values for filtering data
+
+        //Grant Size
         let grant_size = d3.selectAll("input[name='grant-size']").on("click", function(){
             console.log(this.value);
             return this.value;
         });
 
+        // Return Size
         let return_size = d3.selectAll("input[name='return-size']").on("click", function(){
             console.log(this.value);
             return this.value;
         });
 
+        // Year
         let year = d3.selectAll("select[name='years']").on("change", function(){
             year = parseInt(this.value);
             console.log(year);
@@ -469,6 +493,7 @@
             return this.value;
         });
 
+        // Wealth Distribution
         let wealth_dist = d3.selectAll("input[name='wealth-dist'").on("click",function(){
             wealth_dist = this.value;
             console.log(wealth_dist);
@@ -486,6 +511,14 @@
                 area_chart=true);
             return this.value;
         })
+
+        // Percentile
+        let percentile_selection = d3.selectAll("input[name='percentile-selection'").on("click",function(){
+            console.log(this.value);
+            return this.value;
+        })
+
+        // DRAW CHARTS
 
         // Ski slope chart
         drawLineChart(
