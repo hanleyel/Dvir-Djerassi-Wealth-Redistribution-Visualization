@@ -230,11 +230,25 @@
                d.Year_timeparsed = parseTime(d.Year);
             });
 
+            racial_wealth_gap_data.forEach(function(d){
+                d.Year = parseInt(d[""]);
+                d.Year_timeparsed = parseTime(d.Year);
+                d["Racial Wealth Gap - Observed"] = parseFloat(d["Racial Wealth Gap - Observed"]);
+            });
+
+            median_wealth_by_race_data.forEach(function(d){
+                d.Year = parseInt(d[""]);
+                d.Year_timeparsed = parseTime(d.Year);
+                d["Median All - Observed"] = Number(d["Median All - Observed"].replace(/[^0-9.-]+/g,""))
+            });
+
             // Unique values for scaling axes
             let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
             let networth = percentiles_data.map(d=>d["Networth"]).sort();
             let percentiles = percentiles_data.map(d=>d["Percentiles"]).sort();
             let overall_share = Array.from({length:11},(x,i)=>(i/10));
+            let observed = racial_wealth_gap_data.map(d=>d['Racial Wealth Gap - Observed']).sort();
+            let median_observed = median_wealth_by_race_data.map(d=>d['Median All - Observed']).sort();
 
             // Append tooltip div to body
             let tooltip = d3.select("body").append("div")
@@ -265,6 +279,13 @@
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")")
                 .attr("id", "svg-3");
+            d3.select("#tab-6").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")")
+                .attr("id", "svg-6");
 
             // // Append chart export button to body
             // let exportButton = d3.select(".tab-content").append("button")
@@ -307,13 +328,26 @@
                 // Add the line
                 d3.select(svg).append("path")
                     .datum(data.filter(function(d) {
-                        return d[filter_var] === filter_value })) // example group
+                            if (filter_var != null) {
+                                return d[filter_var] === filter_value
+                            } else return d
+                        }
+                        )) // example group
                     .attr("fill", "none")
                     .attr("stroke", "#3da4ab")
                     .attr("stroke-width", 1.5)
                     .attr("d", d3.line()
-                        .x(function(d) {return x(d[x_axis_val])})
-                        .y(function(d) { return y(d[y_axis_val])})
+                        .x(function(d) {
+                            console.log('x');
+                            console.log(d[x_axis_val]);
+                            console.log(typeof(d[x_axis_val]));
+                            return x(d[x_axis_val])})
+                        .y(function(d) {
+                            console.log('y');
+                            console.log(y_axis_val);
+                            console.log(d[y_axis_val]);
+                            console.log(typeof(d[y_axis_val]));
+                            return y(d[y_axis_val])})
                     )
                     .attr("class","linechart");
                 // Add invisible circles for tooltip (doesn't work well on path)
@@ -331,7 +365,6 @@
                     .style("stroke","none")
                     .style("pointer-events","all")
                     .on("mouseover", function(event, d) {
-                        console.log(d);
                         tooltip.transition()
                             .duration(200)
                             .style("opacity", .9);
@@ -419,7 +452,6 @@
                     .style('padding-left',"10px")
                     .style('padding-right','10px')
                     .html(function (d) {
-                        console.log(d.value);
                         if (!(d.value.toString().includes("$"))) {
                             if (parseFloat(d.value) < 1) {
                                 return parseFloat(d.value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -693,8 +725,8 @@
                     y_axis_var='Racial Wealth Gap - Observed',
                     x_axis_val='',
                     y_axis_val='Racial Wealth Gap - Observed',
-                    filter_var="Tax.Rate",
-                    filter_value="1",
+                    filter_var=null,
+                    filter_value=null,
                     parse_time=true);
 
                 // change to racial wealth gap
@@ -732,14 +764,25 @@
                 area_chart=true);
 
             drawLineChart(
-                data=wealth_tax_revenue_data,
+                data=racial_wealth_gap_data,
                 svg="#svg-2",
                 x_axis_var=years,
-                y_axis_var=overall_share,
+                y_axis_var=observed,
                 x_axis_val="Year_timeparsed",
-                y_axis_val="Pre.Tax.Top.10..Share",
-                filter_var="Tax.Rate",
-                filter_value="1",
+                y_axis_val="Racial Wealth Gap - Observed",
+                filter_var=null,
+                filter_value=null,
+                parse_time=true);
+
+            drawLineChart(
+                data=median_wealth_by_race_data,
+                svg="#svg-6",
+                x_axis_var=years,
+                y_axis_var=median_observed,
+                x_axis_val="Year_timeparsed",
+                y_axis_val="Median All - Observed",
+                filter_var=null,
+                filter_value=null,
                 parse_time=true);
 
             drawLineChart(
