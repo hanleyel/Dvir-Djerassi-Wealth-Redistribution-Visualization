@@ -16,15 +16,14 @@
     <link rel="stylesheet" href="./static/style.css">
     <title>Wealth Inequality</title>
 </head>
-<body class="container-fluid p-0">
-<div class="dashboard-title container col-sm-12 mr-0">
+<body>
+<div class="dashboard-title">
     <h1>100% Wealth Tax on All Fortunes Over $100 Million</h1>
     <h4>Wealth inequality in the United States is dramatic.</br>This interactive tool outlines the potential
     consequences of a radical wealth redistribution program.</h4>
 </div>
-<div class="row container-fluid">
-    <div class="col-sm-2">
-        <div class="filter-container mr-0">
+<div class="row">
+        <div class="filter-container">
             <div class="filter-card tab-pane" id="filter-1">
                 <p><b>Grant Size</b></p>
                 <form>
@@ -47,12 +46,12 @@
                     <label for="return-real">Real Rate of Return</label>
                 </form>
             </div>
-            <div class="filter-card tab-pane" id="filter-3">
-                <p><b>Revenue-Neutral Wealth Tax</b></p>
-                <p>[TBD]</p>
-                <div>
-                </div>
-            </div>
+<!--            <div class="filter-card tab-pane" id="filter-3">-->
+<!--                <p><b>Revenue-Neutral Wealth Tax</b></p>-->
+<!--                <p>[TBD]</p>-->
+<!--                <div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="filter-card tab-pane" id="filter-4">
                 <p><b>Year</b></p>
                 <div>
@@ -89,15 +88,22 @@
 <!--                <p>Filter Card</p>-->
 <!--            </div>-->
         </div>
-    </div>
-    <div class="col-sm-10 mr-0 ml-0">
-        <div class="tabbable container mr-0">
+        <div class="tabbable">
             <ul class="nav nav-tab" role="tablist">
+                <li class="" id="li-tab-0" role="presentation">
+                    <a id="ui-tab-0" href="#tab-0" data-target="#tab-0" data-toggle="tab" data-value="">About</a>
+                </li>
                 <li class="" id="li-tab-1" role="presentation">
                     <a id="ui-tab-1" class="active" href="#tab-1" data-target="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
                 </li>
                 <li class="" id="li-tab-2" role="presentation">
-                    <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Top 10% Share Over Time</a>
+                    <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Racial Wealth Gap</a>
+                </li>
+                <li class="" id="li-tab-6" role="presentation">
+                    <a id="ui-tab-6" href="#tab-6" data-toggle="tab" data-value="">Median Wealth by Race</a>
+                </li>
+                <li class="" id="li-tab-7" role="presentation">
+                    <a id="ui-tab-7" href="#tab-7" data-toggle="tab" data-value="">Descriptive Statistics</a>
                 </li>
                 <li class="" id="li-tab-3" role="presentation">
                     <a id="ui-tab-3" href="#tab-3" data-toggle="tab" data-value="">Top 1% Share Over Time</a>
@@ -112,14 +118,16 @@
             <div class="tab-content">
                 <div><p>This simulated wealth tax would raise {$dollars} in {$year}.</br>
                 This program would provide a wealth endowment of {$dollars} per person in {$year}.</p></div>
+                <div id="tab-0" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0"><p></p></div>
                 <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1"><p></p></div>
                 <div id="tab-2" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-2"><p></p></div>
+                <div id="tab-6" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-6"><p></p></div>
+                <div id="tab-7" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-7"><p></p></div>
                 <div id="tab-3" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-3"><p></p></div>
                 <div id="tab-4" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-4"><p></p></div>
                 <div id="tab-5" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-5"><p></p></div>
             </div>
         </div>
-    </div>
 </div>
 <script>
     $(document).ready(function(){
@@ -130,33 +138,54 @@
             $('.nav-tab .active').removeClass('active');
             $(this).addClass('active');
             if (this.id === "li-tab-1"){
-                $("#filter-1").css('display','block');
+                $("#filter-1").css('display','block'); // can change to 'display', 'none' to remove filters from a given vis
                 $("#filter-2").css('display','block');
-                $("#filter-3").css('display','block');
+                // $("#filter-3").css('display','block');
                 $("#filter-4").css('display','block');
                 $("#filter-5").css('display','block');
 
             }
-            else if ((this.id === "li-tab-2")||(this.id==="li-tab-3")){
+            else if (this.id === "li-tab-0"){
                 $("#filter-1").css('display','none');
                 $("#filter-2").css('display','none');
-                $("#filter-3").css('display','none');
+                // $("#filter-3").css('display','none');
+                $("#filter-4").css('display','none');
+                $("#filter-5").css('display','none');
+            }
+            else if ((this.id === "li-tab-2")||(this.id==="li-tab-3")){
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 $("#filter-5").css('display','block');
             }
             else if ((this.id === "li-tab-4")||(this.id==="li-tab-5")){
-                $("#filter-1").css('display','none');
-                $("#filter-2").css('display','none');
-                $("#filter-3").css('display','none');
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                $("#filter-5").css('display','none');
+                $("#filter-5").css('display','block');
+            }
+            else if (this.id === "li-tab-6"){
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
+                $("#filter-4").css('display','none');
+                $("#filter-5").css('display','block');
+            }
+            else if (this.id === "li-tab-7"){
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
+                $("#filter-4").css('display','none');
+                $("#filter-5").css('display','block');
             }
             else{
-                $("#filter-1").css('display','none');
-                $("#filter-2").css('display','none');
-                $("#filter-3").css('display','none');
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                $("#filter-5").css('display','none');
+                $("#filter-5").css('display','block');
             }
         });
 
@@ -166,14 +195,19 @@
         "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/forbes_400.csv",
         "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf_2019.csv",
         "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv"]
+        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
+        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics.csv?token=AFCUSI6QRVOGRAQ2YZZ36V3BAGB2O",
+        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race.csv?token=AFCUSI67LWRPDH2CMDSDYN3BAGB4C",
+        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap.csv?token=AFCUSI6REWQZPNHMKTQFAX3BAGB7G",
+        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh.csv?token=AFCUSI27ZBHPZSEHMAJTEFTBAGCBC"]
         var promises = [];
         files.forEach(function(url){
             promises.push(d3.csv(url))
         });
         // The parameter functions here are the names of the datasets
         Promise.all(promises).then(function([percentiles_data,scf_forbes_data, forbes_400_data, scf_2019_data,scf_data,
-        wealth_tax_revenue_data]){
+        wealth_tax_revenue_data,descriptive_statistics_data, median_wealth_by_race_data,racial_wealth_gap_data,
+                                            share_of_wealth_taxable_hh_data]){
 
             // Set constants
             const margin = {top: 10, right: 50, bottom: 30, left: 80}
@@ -232,11 +266,11 @@
                     "translate(" + margin.left + "," + margin.top + ")")
                 .attr("id", "svg-3");
 
-            // Append chart export button to body
-            let exportButton = d3.select(".tab-content").append("button")
-                .attr("id", "saveButton")
-                .attr("class", "btn btn-secondary")
-                .text("Export as PNG");
+            // // Append chart export button to body
+            // let exportButton = d3.select(".tab-content").append("button")
+            //     .attr("id", "saveButton")
+            //     .attr("class", "btn btn-secondary")
+            //     .text("Export as PNG");
 
             // Functions to draw and update axes
             function updateXAxis(data, svg_id, parse_time){
@@ -334,7 +368,7 @@
 
             // Function to draw tables
             function drawTable(data, svg, table_id, columns, filter_var, filter_value){
-                var table = d3.select(svg).append('table').attr("class","table-bordered table-striped table-hover")
+                var table = d3.select(svg).append('table').attr("class","table-bordered table-hover table-light")
                 var thead = table.append('thead')
                 var	tbody = table.append('tbody');
 
@@ -348,18 +382,21 @@
                     .style("padding", "5px")
                     .style("padding-left","10px")
                     .style("padding-right","10px")
-                    .style('background-color','#0e9aa7')
-                    .style('color',"white")
+                    .style("border-bottom", "1px solid black")
+                    // .style('background-color','#0e9aa7')
+                    // .style('color',"white")
                     .html(function (column) {
-                        var split_column = column.split('.')
-                        if (split_column.length >2){
-                            split_column.splice(2,0,'<br>')
-                        } if (split_column.length > 5){
-                            split_column.splice(5,0,'<br>')
-                        } if (split_column.length > 8){
-                            split_column.splice(8,0,'<br>')
+                        if(!(column.includes("$"))) {
+                            var split_column = column.split('.')
+                            if (split_column.length >2){
+                                split_column.splice(2,0,'<br>')
+                            } if (split_column.length > 5){
+                                split_column.splice(5,0,'<br>')
+                            } if (split_column.length > 8){
+                                split_column.splice(8,0,'<br>')
+                            }
+                            column = split_column.join(' ')
                         }
-                        column = split_column.join(' ')
                         return column
                     });
 
@@ -381,18 +418,26 @@
                     .style('padding','5px')
                     .style('padding-left',"10px")
                     .style('padding-right','10px')
-                    .text(function (d) {
-                        if (parseFloat(d.value)<1){
-                            return parseFloat(d.value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        } else {
+                    .html(function (d) {
+                        console.log(d.value);
+                        if (!(d.value.toString().includes("$"))) {
+                            if (parseFloat(d.value) < 1) {
+                                return parseFloat(d.value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
                                 if (d.value >= 1000000000) {
                                     return (d.value / 1000000000).toFixed(1).replace(/\.0$/, '').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + 'B';
                                 }
                                 if (d.value >= 1000000) {
                                     return (d.value / 1000000).toFixed(1).replace(/\.0$/, '').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + 'M';
                                 }
-                            return parseInt(d.value);}}
+                                return parseInt(d.value);
+                            }
+                        } else{
+                            return d.value.toString();
+                        }
+                    }
             );
+
 
                 return table;
             }
@@ -642,16 +687,17 @@
                     area_chart=true);
 
                 drawLineChart(
-                    data=wealth_tax_revenue_data,
+                    data=racial_wealth_gap_data,
                     svg="#svg-2",
-                    x_axis_var=years,
-                    y_axis_var=overall_share,
-                    x_axis_val="Year_timeparsed",
-                    y_axis_val=wealth_dist_top1,
+                    x_axis_var='',
+                    y_axis_var='Racial Wealth Gap - Observed',
+                    x_axis_val='',
+                    y_axis_val='Racial Wealth Gap - Observed',
                     filter_var="Tax.Rate",
                     filter_value="1",
                     parse_time=true);
 
+                // change to racial wealth gap
                 drawLineChart(
                     data=wealth_tax_revenue_data,
                     svg="#svg-3",
@@ -659,8 +705,8 @@
                     y_axis_var=overall_share,
                     x_axis_val="Year_timeparsed",
                     y_axis_val=wealth_dist_top10,
-                    filter_var="Tax.Rate",
-                    filter_value="1",
+                    filter_var=null,
+                    filter_value=null,
                     parse_time=true);
             })
 
@@ -708,6 +754,14 @@
                 parse_time=true);
 
             drawTable(
+                data=descriptive_statistics_data,
+                svg="#tab-7",
+                table_id="descriptives-table",
+                columns=["", "US Population", "Cost per Birth", "Children Born", "Total Endowment Program Cost", "Tax Rate"],
+                filter_var="Cost per Birth",
+                filter_value="$17,482");
+
+            drawTable(
                 data=wealth_tax_revenue_data,
                 svg="#tab-4",
                 table_id="aggregate-table",
@@ -720,9 +774,7 @@
                 data=wealth_tax_revenue_data,
                 svg="#tab-5",
                 table_id="aggregate-table",
-                columns=["Year","Pre.Tax.Top.10..Share", "Post.Tax.Top.10..Share",
-                    "Post.Tax.and.Post.Transfer.Top.10..Share",
-                "Pre.Tax.Top.1..Share", "Post.Tax.Top.1..Share",
+                columns=["Year", "Pre.Tax.Top.1..Share", "Post.Tax.Top.1..Share",
                 "Post.Tax.and.Post.Transfer.Top.1..Share"],
                 filter_var="Tax.Rate",
                 filter_value="1");

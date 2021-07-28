@@ -49,11 +49,13 @@ body{
 
 .filter-container{
     height:100%;
+    width:16%;
     background-color:white;
-    margin-left:.5rem;
+    margin-left:1.5%;
+    margin-right:1%;
     box-shadow:1px 2px 5px 1px 	#D3D3D3;
     border-radius:3px;
-    padding:5px;
+    padding:1%;
 }
 
 div.tooltip {
@@ -79,26 +81,39 @@ div.tooltip {
 }
 
 .mr-0{
-    margin-right:-1.25rem !important;
+    margin-right:-2rem !important;
 }
 
 .ml-0{
-    margin-left:-1.25rem !important;
+    margin-left:-2rem !important;
+}
+
+.mr-2{
+    margin-right:2rem !important;
+}
+
+.tab-content{
+    width:100%;
 }
 
 .tabbable{
-    /*width: 100%;*/
+    width: 80%;
     height:100%;
+    min-height:500px;
+    margin-left:0;
+    margin-right:1.5%;
     background-color: white;
     box-shadow:1px 2px 5px 1px 	#D3D3D3;
     border-radius: 3px;
-    padding-bottom:10px;
+    padding:2%;
 }
 
 table{
     margin-bottom: 20px;
     border-collapse: collapse;
     border: none;
+    box-shadow:1px 2px 5px 1px 	#D3D3D3;
+    padding: 1%;
 }
 
 .nav {
@@ -133,6 +148,7 @@ li .active{
     background-color:white;
     box-shadow:1px 2px 5px 1px 	#D3D3D3;
     border-radius:3px;
+    padding:2%;
 }
 
 .nav-tab {
@@ -147,7 +163,7 @@ li .active{
 }
 
 .row{
-    min-height:400px;
+    min-height:500px;
     display:flex;
     flex-direction:row;
     /*background-color:pink;*/
@@ -157,21 +173,33 @@ li .active{
     padding:10px;
 }
 
+#tab-4{
+    align-items:center;
+}
+
 table, th, td {
     border: 1px solid black;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.col-sm-2{
+    background-color: blue;
+    /*margin-right:0 !important;*/
 }
 
 .col-sm-4{
 }
 
-.col-sm-2{
-    margin-right:0 !important;
+col-sm-10{
+    /*margin-left:0 !important;*/
+    background-color:blue;
 }
 
 .col-sm-12{
     /*background-color: blue;*/
     height:auto;
-    margin-left:0; !important
+    margin-left:-2rem; !important
     max-width:20% !important
     flex-basis:20% !important
 }
