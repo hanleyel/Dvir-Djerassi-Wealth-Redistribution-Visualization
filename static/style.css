@@ -92,6 +92,18 @@ div.tooltip {
     margin-right:2rem !important;
 }
 
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    margin-top:3%;
+    margin-left:8%;
+    padding:1%;
+    width: 15%;
+    height: 10%;
+    background-color: white;
+    box-shadow:1px 2px 5px 1px 	#D3D3D3;
+    z-index: 10;
+}
+
 .tab-content{
     width:100%;
 }

@@ -52,27 +52,6 @@
 <!--                <div>-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="filter-card tab-pane" id="filter-4">
-                <p><b>Year</b></p>
-                <div>
-                    <label for="years">Choose a year:</label>
-                    <select name="years" id="years">
-                        <option value="2019">2019</option>
-                        <option value="2016">2016</option>
-                        <option value="2013">2013</option>
-                        <option value="2010">2010</option>
-                        <option value="2007">2007</option>
-                        <option value="2004">2004</option>
-                        <option value="2001">2001</option>
-                        <option value="1998">1998</option>
-                        <option value="1995">1995</option>
-                        <option value="1992">1992</option>
-                        <option value="1989">1989</option>
-
-
-                    </select>
-                </div>
-            </div>
             <div class="filter-card tab-pane" id="filter-5">
                 <p><b>Wealth Distribution</b></p>
                 <div>
@@ -116,10 +95,37 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div><p>This simulated wealth tax would raise {$dollars} in {$year}.</br>
-                This program would provide a wealth endowment of {$dollars} per person in {$year}.</p></div>
-                <div id="tab-0" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0"><p></p></div>
-                <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1"><p></p></div>
+<!--                <div><p>This simulated wealth tax would raise {$dollars} in {$year}.</br>-->
+<!--                This program would provide a wealth endowment of {$dollars} per person in {$year}.</p></div>-->
+                <div id="tab-0" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0">
+                    <p></p>
+                </div>
+                <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1">
+                    <p></p>
+                    <div id="overlay">
+                        <div class="filter-card tab-pane" id="filter-4">
+                            <p><b>Year</b></p>
+                            <div>
+                                <label for="years">Choose a year:</label>
+                                <select name="years" id="years">
+                                    <option value="2019">2019</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2001">2001</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1995">1995</option>
+                                    <option value="1992">1992</option>
+                                    <option value="1989">1989</option>
+
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="tab-2" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-2"><p></p></div>
                 <div id="tab-6" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-6"><p></p></div>
                 <div id="tab-7" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-7"><p></p></div>
@@ -314,16 +320,23 @@
             function drawLineChart(data, svg, x_axis_var=years, y_axis_var=networth,
                                    x_axis_val="Year", y_axis_val="Networth",
                                    filter_var="Percentiles", filter_value=9, parse_time=false,
-            area_chart=false){
-                var x = updateXAxis(x_axis_var, svg, parse_time);
-                var y = updateYAxis(y_axis_var, svg, parse_time);
+            area_chart=false, draw_line_only=false){
 
-                // Define the area under the line
-                // define the area
-                var area = d3.area()
-                    .x(function(d) { return x(d[x_axis_val]); })
-                    .y0(height)
-                    .y1(function(d) { return y(d[y_axis_val]); });
+                if (draw_line_only === false) {
+                    var x = updateXAxis(x_axis_var, svg, parse_time);
+                    var y = updateYAxis(y_axis_var, svg, parse_time);
+
+                    // Define the area under the line
+                    // define the area
+                    var area = d3.area()
+                        .x(function (d) {
+                            return x(d[x_axis_val]);
+                        })
+                        .y0(height)
+                        .y1(function (d) {
+                            return y(d[y_axis_val]);
+                        });
+                }
 
                 // Add the line
                 d3.select(svg).append("path")
@@ -729,7 +742,6 @@
                     filter_value=null,
                     parse_time=true);
 
-                // change to racial wealth gap
                 drawLineChart(
                     data=wealth_tax_revenue_data,
                     svg="#svg-3",
