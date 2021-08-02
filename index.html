@@ -521,18 +521,22 @@
                     )
                     .attr("class",'linechart');
 
-                // Add invisible circles for tooltip (tooltip doesn't work well on path)
-                d3.select(svg).selectAll("circle")
+                // Add circles for tooltip (tooltip doesn't work well on path)
+                let circle = d3.select(svg).selectAll("circle_"+y_axis_val.replaceAll(" ","_").replaceAll("&","_"))
                     .data(data.filter(function(d) {
-                        return d[filter_var] === filter_value })) // example group
-                    .enter().append("circle")
-                    .attr("r",5)
+                            if (filter_var != null) {
+                                return d[filter_var] === filter_value
+                            } else return d
+                        }
+                    )) // example group
+                    circle.enter().append("circle")
+                    .attr("r",4)
                     .attr("cx", function(d){
                         return x(d[x_axis_val])})
                     .attr("cy", function(d){
                         return y(d[y_axis_val])})
                     .attr("class","linechart")
-                    .style("fill","none")
+                    .style("fill",stroke_color)
                     .style("stroke","none")
                     .style("pointer-events","all")
                     .on("mouseover", function(event, d) {
