@@ -30,7 +30,7 @@ label{
 body{
     height:100%;
     flex-direction:column;
-    background-color:#F5F5F5;
+    background-color:#Fdfdfd;
 }
 
 .area {
@@ -44,18 +44,18 @@ body{
 .filter-card{
     height:20%;
     background-color:white;
-    margin-bottom:1px;
+    margin-bottom:5%;
+    padding:1%;
+    box-shadow:1px 2px 5px 1px 	#D3D3D3;
 }
 
 .filter-container{
     height:100%;
     width:16%;
-    background-color:white;
+    background-color:#F5F5F5;
     margin-left:1.5%;
     margin-right:1%;
-    box-shadow:1px 2px 5px 1px 	#D3D3D3;
     border-radius:3px;
-    padding:1%;
 }
 
 div.tooltip {
@@ -80,6 +80,23 @@ div.tooltip {
     margin-bottom:10px;
 }
 
+#legend{
+    margin-top:2%;
+    padding:2%;
+    width:100%;
+    box-shadow:1px 2px 5px 1px 	#D3D3D3;
+}
+
+#legend-1{
+    width:100%
+}
+#legend-2{
+    width:100%;
+}
+#legend-3{
+    width:100%;
+}
+
 .mr-0{
     margin-right:-2rem !important;
 }
@@ -93,7 +110,7 @@ div.tooltip {
 }
 
 #overlay {
-    position: fixed; /* Sit on top of the page content */
+    position: absolute; /* Sit on top of the page content */
     margin-top:3%;
     margin-left:8%;
     padding:1%;
@@ -181,8 +198,24 @@ li .active{
     /*background-color:pink;*/
 }
 
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 20%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    /*overflow: hidden;*/
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
 #svg-1{
     padding:10px;
+    width:auto;
 }
 
 #tab-4{

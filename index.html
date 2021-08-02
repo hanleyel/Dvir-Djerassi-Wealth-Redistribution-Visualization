@@ -46,27 +46,8 @@
                     <label for="return-real">Real Rate of Return</label>
                 </form>
             </div>
-<!--            <div class="filter-card tab-pane" id="filter-3">-->
-<!--                <p><b>Revenue-Neutral Wealth Tax</b></p>-->
-<!--                <p>[TBD]</p>-->
-<!--                <div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="filter-card tab-pane" id="filter-5">-->
-<!--                <p><b>Wealth Distribution</b></p>-->
-<!--                <div>-->
-<!--                    <input type="radio" class="tab-pane" id="current-wealth-dist" name="wealth-dist" value="Networth">-->
-<!--                    <label for="current-wealth-dist">Current</label><br>-->
-<!--                    <input type="radio" id="post-tax-post-transfer" name="wealth-dist" value="Post-Tax and Post-Transfer">-->
-<!--                    <label for="post-tax-post-transfer">Post-Tax&Transfer</label><br>-->
-<!--                    <input type="radio" id="post-tax" name="wealth-dist" value="Post-Tax">-->
-<!--                    <label for="post-tax">Post-Tax</label>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="filter-card">-->
-<!--                <p>Filter Card</p>-->
-<!--            </div>-->
         </div>
+
         <div class="tabbable">
             <ul class="nav nav-tab" role="tablist">
                 <li class="" id="li-tab-0" role="presentation">
@@ -105,9 +86,9 @@
                 <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1">
                     <p></p>
                     <div id="overlay">
-                        <div class="filter-card tab-pane" id="filter-4">
-                            <p><b>Year</b></p>
+                        <div class="tab-pane" id="filter-4">
                             <div>
+                                <p><b>Year</b></p>
                                 <label for="years">Choose a year:</label>
                                 <select name="years" id="years">
                                     <option value="2019">2019</option>
@@ -135,6 +116,12 @@
                 <div id="tab-4" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-4"><p></p></div>
                 <div id="tab-5" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-5"><p></p></div>
             </div>
+            <div id="legend" style="display:none">
+                <p><b>Legend</b></p>
+                <svg id="legend-1"></svg>
+                <svg id="legend-2"></svg>
+                <svg id="legend-3"></svg>
+            </div>
         </div>
 </div>
 <script>
@@ -148,9 +135,9 @@
             if (this.id === "li-tab-1"){
                 $("#filter-1").css('display','block'); // can change to 'display', 'none' to remove filters from a given vis
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','block');
                 $("#filter-4").css('display','block');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','none');
 
             }
             else if (this.id === "li-tab-0"){
@@ -159,27 +146,46 @@
                 // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','block');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','none');
             }
-            else if ((this.id === "li-tab-2")||(this.id==="li-tab-3")){
+            else if (this.id === "li-tab-2"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
                 // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','inline-block');
+                $("#legend-1").css('display','block');
+                $("#legend-2").css('display','none');
+                $("#legend-3").css('display','none');
+            }
+            else if (this.id==="li-tab-3"){
+                $("#filter-1").css('display','block');
+                $("#filter-2").css('display','block');
+                // $("#filter-3").css('display','none');
+                $("#filter-4").css('display','none');
+                // $("#filter-5").css('display','block');
+                $("#legend").css('display','inline-block');
+                $("#legend-1").css('display','none');
+                $("#legend-2").css('display','none');
+                $("#legend-3").css('display','block');
             }
             else if ((this.id === "li-tab-4")||(this.id==="li-tab-5")){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','none');
             }
             else if (this.id === "li-tab-6"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','inline-block');
+                $("#legend-1").css('display','none');
+                $("#legend-2").css('display','block');
+                $("#legend-3").css('display','none');
             }
             else if (this.id === "li-tab-7"){
                 $("#filter-1").css('display','block');
@@ -187,6 +193,7 @@
                 // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','none');
             }
             else{
                 $("#filter-1").css('display','block');
@@ -194,6 +201,7 @@
                 // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
                 // $("#filter-5").css('display','block');
+                $("#legend").css('display','none');
             }
         });
 
@@ -213,14 +221,22 @@
             promises.push(d3.csv(url))
         });
         // The parameter functions here are the names of the datasets
-        Promise.all(promises).then(function([percentiles_data,scf_forbes_data, forbes_400_data, scf_2019_data,scf_data,
-        wealth_tax_revenue_data,descriptive_statistics_data, median_wealth_by_race_data,racial_wealth_gap_data,
-                                            share_of_wealth_taxable_hh_data]){
+        Promise.all(promises).then(function([percentiles_data,
+                                                scf_forbes_data,
+                                                forbes_400_data,
+                                                scf_2019_data,
+                                                scf_data,
+                                                wealth_tax_revenue_data,
+                                                descriptive_statistics_data,
+                                                median_wealth_by_race_data,
+                                                racial_wealth_gap_data,
+                                                share_of_wealth_taxable_hh_data]){
 
             // Set constants
-            const margin = {top: 10, right: 50, bottom: 30, left: 80}
+            const margin = {top: 10, right: 80, bottom: 30, left: 80}
+
             // Gets width and height based on div size
-            const width = d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right;
+            const width = (d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right)*.95;
             const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
 
             // parse the date / time
@@ -284,6 +300,120 @@
                 .style("opacity", 0)
                 .text('tooltip');
 
+            // Append info to legends
+            d3.select("#legend-1").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 50)
+                .attr("y2", 50)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "#3da4ab")
+                .style("stroke-width",2);
+            d3.select("#legend-1").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 100)
+                .attr("y2", 100)
+                .style("stroke-dasharray","5,5")//dashed array for line
+                .style("stroke", "#3da4ab")
+                .style("stroke-width",2);
+            d3.select("#legend-1").append("text").attr("x", 100).attr("y", 50)
+                .text("Racial Wealth Gap - Observed")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-1").append("text").attr("x", 100).attr("y", 100)
+                .text("Racial Wealth Gap - Simulated Post-Tax & Transfer")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+
+            d3.select("#legend-2").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 25)
+                .attr("y2", 25)
+                .style("stroke-dasharray","5,5")//dashed array for line
+                .style("stroke", "#3da4ab")
+                .style("stroke-width",2);
+            d3.select("#legend-2").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 50)
+                .attr("y2", 50)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "#3da4ab")
+                .style("stroke-width",2);
+            d3.select("#legend-2").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 75)
+                .attr("y2", 75)
+                .style("stroke-dasharray","5,5")//dashed array for line
+                .style("stroke", "#FF9900")
+                .style("stroke-width",2);
+            d3.select("#legend-2").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 100)
+                .attr("y2", 100)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "#FF9900")
+                .style("stroke-width",2);
+            d3.select("#legend-2").append("text").attr("x", 100).attr("y", 25)
+                .text("Median White - Observed")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-2").append("text").attr("x", 100).attr("y", 50)
+                .text("Median White - Simulated Post-Tax & Transfer")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-2").append("text").attr("x", 100).attr("y", 75)
+                .text("Median Black - Observed")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-2").append("text").attr("x", 100).attr("y", 100)
+                .text("Median Black - Simulated Post-Tax & Transfer")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+
+            d3.select("#legend-3").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 25)
+                .attr("y2", 25)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "#3da4ab")
+                .style("stroke-width",2);
+            d3.select("#legend-3").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 50)
+                .attr("y2", 50)
+                .style("stroke-dasharray","5,5")//dashed array for line
+                .style("stroke", "#FF9900")
+                .style("stroke-width",2);
+            d3.select("#legend-3").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 75)
+                .attr("y2", 75)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "lightgray")
+                .style("stroke-width",2);
+            d3.select("#legend-3").append("line").attr("x1", 30)
+                .attr("x2", 60)
+                .attr("y1", 100)
+                .attr("y2", 100)
+                .style("stroke-solid","5,5")//dashed array for line
+                .style("stroke", "#FF9900")
+                .style("stroke-width",2);
+            d3.select("#legend-3").append("text").attr("x", 100).attr("y", 25)
+                .text("Observed  - Share of Wealth Garnered by Households Above Tax Threshold")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-3").append("text").attr("x", 100).attr("y", 50)
+                .text("Simulated Post-Tax & Transfer -  Share of Wealth Garnered by Households Above Tax Threshold")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-3").append("text").attr("x", 100).attr("y", 75)
+                .text("Simulated Post-Tax - Share of Wealth Garnered by Households Above Tax Threshold")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+            d3.select("#legend-3").append("text").attr("x", 100).attr("y", 100)
+                .text("Year t - Simulated Share of Wealth Garnered by Households Above Tax Threshold")
+                .style("font-size", "15px")
+                .attr("alignment-baseline","middle")
+
             // Append SVGs to tab-content to draw charts
             d3.select("#tab-1").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -291,8 +421,7 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")")
-                .attr("id", "svg-1")
-                .attr("class","fullScreen");
+                .attr("id", "svg-1");
             d3.select("#tab-2").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -346,13 +475,16 @@
             function drawLineChart(data,
                                    svg,
                                    draw_line_only,
+                                   stroke_type,
+                                   stroke_color,
                                    x_axis_var=years,
                                    y_axis_var=networth,
                                    x_axis_val="Year",
                                    y_axis_val="Networth",
                                    filter_var="Percentiles",
                                    filter_value=9,
-                                   parse_time=false, area_chart=false){
+                                   parse_time=false,
+                                   area_chart=false){
 
 
                 var x = updateXAxis(x_axis_var, svg, parse_time);
@@ -378,16 +510,16 @@
                         }
                         )) // example group
                     .attr("fill", "none")
-                    .attr("stroke", "#3da4ab")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", stroke_color)
+                    .attr("stroke-width", 2)
+                    .style(stroke_type,"5,5")
                     .attr("d", d3.line()
                         .x(function(d) {
-                            console.log(d);
                             return x(d[x_axis_val])})
                         .y(function(d) {
                             return y(d[y_axis_val])})
                     )
-                    .attr("class",'linechart '+y_axis_val.replaceAll(" ","-").toString());
+                    .attr("class",'linechart');
 
                 // Add invisible circles for tooltip (tooltip doesn't work well on path)
                 d3.select(svg).selectAll("circle")
@@ -705,13 +837,13 @@
             // Year
             let year = d3.selectAll("select[name='years']").on("change", function(){
                 year = parseInt(this.value);
-                console.log(year);
                 removeLineChart(svg="#svg-1");
-                console.log(year);
                 drawLineChart(
                     data=percentiles_data,
                     svg="#svg-1",
                     draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#3da4ab",
                     x_axis_var=percentiles,
                     y_axis_var=networth,
                     x_axis_val="Percentiles",
@@ -719,7 +851,7 @@
                     filter_var="Year",
                     filter_value=year,
                     parse_time=false,
-                    area_chart=true);
+                    area_chart=true)
                 return this.value;
             });
 
@@ -794,6 +926,8 @@
                 data=percentiles_data,
                 svg="#svg-1",
                 draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#3da4ab",
                 x_axis_var=percentiles,
                 y_axis_var=networth,
                 x_axis_val="Percentiles",
@@ -808,6 +942,8 @@
                 data=racial_wealth_gap_data,
                 svg="#svg-2",
                 draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#3da4ab",
                 x_axis_var=years,
                 y_axis_var=observed,
                 x_axis_val="Year_timeparsed",
@@ -816,22 +952,26 @@
                 filter_value=null,
                 parse_time=true);
 
-            drawLineChart(
-                data=racial_wealth_gap_data,
-                svg="#svg-2",
-                draw_line_only=true,
-                x_axis_var=years,
-                y_axis_var=observed,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Racial Wealth Gap - Simulated Post-Tax",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+            // drawLineChart(
+            //     data=racial_wealth_gap_data,
+            //     svg="#svg-2",
+            //     draw_line_only=true,
+            //     stroke_type="stroke-dasharray",
+            //     stroke_color="#FF9900",
+            //     x_axis_var=years,
+            //     y_axis_var=observed,
+            //     x_axis_val="Year_timeparsed",
+            //     y_axis_val="Racial Wealth Gap - Simulated Post-Tax",
+            //     filter_var=null,
+            //     filter_value=null,
+            //     parse_time=true);
 
             drawLineChart(
                 data=racial_wealth_gap_data,
                 svg="#svg-2",
                 draw_line_only=true,
+                stroke_type="stroke-dasharray",
+                stroke_color="#3da4ab",
                 x_axis_var=years,
                 y_axis_var=observed,
                 x_axis_val="Year_timeparsed",
@@ -846,6 +986,8 @@
                 data=median_wealth_by_race_data,
                 svg="#svg-6",
                 draw_line_only=false,
+                stroke_type="stroke-dasharray",
+                stroke_color="#3da4ab",
                 x_axis_var=years,
                 y_axis_var=median_white,
                 x_axis_val="Year_timeparsed",
@@ -858,6 +1000,8 @@
                 data=median_wealth_by_race_data,
                 svg="#svg-6",
                 draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#3da4ab",
                 x_axis_var=years,
                 y_axis_var=median_white,
                 x_axis_val="Year_timeparsed",
@@ -870,6 +1014,8 @@
                 data=median_wealth_by_race_data,
                 svg="#svg-6",
                 draw_line_only=false,
+                stroke_type="stroke-dasharray",
+                stroke_color="#FF9900",
                 x_axis_var=years,
                 y_axis_var=median_white,
                 x_axis_val="Year_timeparsed",
@@ -882,6 +1028,8 @@
                 data=median_wealth_by_race_data,
                 svg="#svg-6",
                 draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#FF9900",
                 x_axis_var=years,
                 y_axis_var=median_white,
                 x_axis_val="Year_timeparsed",
@@ -896,6 +1044,8 @@
                 data=share_of_wealth_taxable_hh_data,
                 svg="#svg-3",
                 draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#3da4ab",
                 x_axis_var=years,
                 y_axis_var=wealth_garnered,
                 x_axis_val="Year_timeparsed",
@@ -908,18 +1058,8 @@
                 data=share_of_wealth_taxable_hh_data,
                 svg="#svg-3",
                 draw_line_only=false,
-                x_axis_var=years,
-                y_axis_var=wealth_garnered,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
-
-            drawLineChart(
-                data=share_of_wealth_taxable_hh_data,
-                svg="#svg-3",
-                draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="lightgray",
                 x_axis_var=years,
                 y_axis_var=wealth_garnered,
                 x_axis_val="Year_timeparsed",
@@ -932,10 +1072,26 @@
                 data=share_of_wealth_taxable_hh_data,
                 svg="#svg-3",
                 draw_line_only=false,
+                stroke_type="stroke-dasharray",
+                stroke_color="#FF9900",
                 x_axis_var=years,
                 y_axis_var=wealth_garnered,
                 x_axis_val="Year_timeparsed",
                 y_axis_val="Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold",
+                filter_var=null,
+                filter_value=null,
+                parse_time=true);
+
+            drawLineChart(
+                data=share_of_wealth_taxable_hh_data,
+                svg="#svg-3",
+                draw_line_only=false,
+                stroke_type="stroke-solid",
+                stroke_color="#FF9900",
+                x_axis_var=years,
+                y_axis_var=wealth_garnered,
+                x_axis_val="Year_timeparsed",
+                y_axis_val="Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t",
                 filter_var=null,
                 filter_value=null,
                 parse_time=true);
