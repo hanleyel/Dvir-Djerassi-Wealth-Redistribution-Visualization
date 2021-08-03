@@ -415,13 +415,26 @@
                 .attr("alignment-baseline","middle")
 
             // Append SVGs to tab-content to draw charts
-            d3.select("#tab-1").append("svg")
+            let svg_1 = d3.select("#tab-1").append("svg")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("height", height + margin.top + (margin.bottom*2))
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")")
-                .attr("id", "svg-1");
+                .attr("id", "svg-1")
+                svg_1.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", width*.6)
+                .attr("y", height + 50)
+                .text("U.S. Wealth Percentiles")
+                svg_1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", -80)
+                .attr("dy", ".75em")
+                .attr("transform", "rotate(-90)")
+                .text("Share of Wealth (in U.S. Dollars)            ");
             d3.select("#tab-2").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -530,7 +543,7 @@
                         }
                     )) // example group
                     circle.enter().append("circle")
-                    .attr("r",4)
+                    .attr("r",3)
                     .attr("cx", function(d){
                         return x(d[x_axis_val])})
                     .attr("cy", function(d){
@@ -543,7 +556,7 @@
                         tooltip.transition()
                             .duration(200)
                             .style("opacity", .9);
-                        tooltip.html(d[y_axis_val])
+                        tooltip.html(d[y_axis_val].toFixed(2))
                             .style("left", (event.pageX) + "px")
                             .style("top", (event.pageY - 28) + "px");
                     })
