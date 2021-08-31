@@ -23,27 +23,27 @@
     consequences of a radical wealth redistribution program.</h4>
 </div>
 <div class="row">
-        <div class="filter-container">
+        <div id="select-multiple" class="filter-container">
             <div class="filter-card tab-pane" id="filter-1">
                 <p><b>Grant Size</b></p>
                 <form>
-                    <input type="radio" id="grant-fifteen" name="grant-size" value="grant-fifteen">
-                    <label for="grant-fifteen">$15,000</label><br>
-                    <input type="radio" id="grant-thirty" name="grant-size" value="grant-thirty">
-                    <label for="grant-thirty">$30,000</label><br>
-                    <input type="radio" id="grant-fifty" name="grant-size" value="grant-fifty">
-                    <label for="grant-fifty">$50,000</label>
+                    <input type="radio" id="_15" name="grant-size" value="_15">
+                    <label for="_15">$15,000</label><br>
+                    <input type="radio" id="_30" name="grant-size" value="_30">
+                    <label for="_30">$30,000</label><br>
+                    <input type="radio" id="_50" name="grant-size" value="_50">
+                    <label for="_50">$50,000</label>
                 </form>
             </div>
             <div class="filter-card tab-pane" id="filter-2">
                 <p><b>Rate of Return</b></p>
                 <form>
-                    <input type="radio" id="return-one" name="return-size" value="return-one">
-                    <label for="return-one">1%</label><br>
-                    <input type="radio" id="return-three" name="return-size" value="return-three">
-                    <label for="return-three">3%</label><br>
-                    <input type="radio" id="return-real" name="return-size" value="return-real">
-                    <label for="return-real">Real Rate of Return</label>
+                    <input type="radio" id="_1" name="return-size" value="_1">
+                    <label for="_1">1%</label><br>
+                    <input type="radio" id="_3" name="return-size" value="_3">
+                    <label for="_3">3%</label><br>
+<!--                    <input type="radio" id="return-real" name="return-size" value="return-real">-->
+<!--                    <label for="return-real">Real Rate of Return</label>-->
                 </form>
             </div>
         </div>
@@ -525,9 +525,9 @@
             function updateXAxis(data, svg_id, parse_time){
                 var x = d3.scaleLinear().domain([Number(d3.min(data)),Number(d3.max(data))]).range([0,width]);
                 if (parse_time===true){
-                    d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")))}
+                    d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").attr("class","x-axis").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")))}
                 else{
-                    d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").call(d3.axisBottom(x))}
+                    d3.select(svg_id).append("g").attr("transform", "translate(0, "+height+")").attr("class","x-axis").call(d3.axisBottom(x))}
                 return x
             }
 
@@ -537,7 +537,7 @@
                 } else {
                     var y = d3.scaleLinear().domain([0, (d3.max(data) * 1.1)]).range([height, 0]);
                 }
-                d3.select(svg_id).append("g").attr("transform", "translate(0, 0)").call(d3.axisLeft(y));
+                d3.select(svg_id).append("g").attr("transform", "translate(0, 0)").attr("class","y-axis").call(d3.axisLeft(y));
                 return y
             }
 
@@ -638,6 +638,8 @@
             // Function to remove line chart
             function removeLineChart(){
                 d3.selectAll(".linechart").remove();
+                d3.selectAll(".x-axis").remove();
+                d3.selectAll(".y-axis").remove();
             }
 
             // Function to draw ski slope chart
@@ -647,8 +649,7 @@
 
             // Function to draw tables
             function drawTable(data, svg, table_id, columns, filter_var, filter_value){
-                console.log("Drawing table "+table_id);
-                var table = d3.select(svg).append('table').attr("class","table-bordered table-hover table-light")
+                var table = d3.select(svg).append('table').attr("class","table table-bordered table-hover table-light")
                 var thead = table.append('thead')
                 var	tbody = table.append('tbody');
 
@@ -683,7 +684,6 @@
                 // create a row for each object in the data
                 var rows = tbody.selectAll('tr')
                     .data(data.filter(function(d) {
-                        console.log('Drawing rows');
                         if (filter_value!= null) {
                             return d[filter_var] === filter_value
                         } else return d
@@ -694,7 +694,6 @@
                 // create a cell in each row for each column
                 var cells = rows.selectAll('td')
                     .data(function (row) {
-                        console.log("Drawing cells");
                         return columns.map(function (column) {
                             return {column: column, value: row[column]};
                         });
@@ -707,10 +706,8 @@
                     .html(function (d) {
                         if (!(d.value.toString().includes("$"))) {
                             if (parseFloat(d.value) < 1) {
-                                console.log(d.value);
                                 return parseFloat(d.value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             } else {
-                                console.log(d.value);
                                 if (d.value >= 1000000000) {
                                     return (d.value / 1000000000).toFixed(1).replace(/\.0$/, '').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + 'B';
                                 }
@@ -720,7 +717,6 @@
                                 return parseInt(d.value);
                             }
                         } else{
-                            console.log(d.value);
                             return d.value.toString();
                         }
                     }
@@ -730,19 +726,63 @@
                 return table;
             }
 
+            function removeTable(){
+                d3.selectAll(".table").remove();
+            }
+
             // Run Code
             // Get radio button values for filtering data
 
             //Grant Size
-            let grant_size = d3.selectAll("input[name='grant-size']").on("click", function(){
-                console.log(this.value);
-                return this.value;
+            var grant_size = "_15"
+            d3.selectAll("input[name='grant-size']").on("click", function(){
+                if (this.value === "_15"){
+                    grant_size = "_15"
+                } else if (this.value === "_30")
+                {
+                    grant_size = "_30"
+                } else if (this.value === "_50")
+                {
+                    grant_size = "_50"
+                }
+
+                removeLineChart(svg="#svg-2");
+                removeLineChart(svg="#svg-3");
+                removeLineChart(svg="#svg-6");
+                removeTable(svg="#svg-4");
+                removeTable(svg="#svg-5");
+                removeTable(svg="#svg-7");
+
+                update_charts(data_names["racial_wealth_gap"+return_size+grant_size],
+                    data_names["wealth_by_race"+return_size+grant_size],
+                    data_names["share_taxable_wealth"+return_size+grant_size],
+                    data_names["descriptive_statistics"+return_size+grant_size]
+                )
+
             });
 
             // Return Size
-            let return_size = d3.selectAll("input[name='return-size']").on("click", function(){
-                console.log(this.value);
-                return this.value;
+            var return_size = "_1"
+            d3.selectAll("input[name='return-size']").on("click", function(){
+                if (this.value === "_1"){
+                    return_size = "_1"
+                } else if (this.value === "_3"){
+                    return_size = "_3"
+                }
+
+                removeLineChart(svg="#svg-2");
+                removeLineChart(svg="#svg-3");
+                removeLineChart(svg="#svg-6");
+                removeTable(svg="#svg-4");
+                removeTable(svg="#svg-5");
+                removeTable(svg="#svg-7");
+
+                update_charts(data_names["racial_wealth_gap"+return_size+grant_size],
+                    data_names["wealth_by_race"+return_size+grant_size],
+                    data_names["share_taxable_wealth"+return_size+grant_size],
+                    data_names["descriptive_statistics"+return_size+grant_size]
+                )
+
             });
 
             // Year
@@ -766,64 +806,6 @@
                 return this.value;
             });
 
-            // // Wealth Distribution
-            // let wealth_dist = d3.selectAll("input[name='wealth-dist'").on("click",function(){
-            //
-            //     wealth_dist = this.value;
-            //
-            //     var wealth_dist_top1 = "Pre.Tax.Top.1..Share"
-            //     var wealth_dist_top10 = "Pre.Tax.Top.10..Share"
-            //
-            //     if (wealth_dist === "Post-Tax and Post-Transfer"){
-            //         wealth_dist_top1 = "Post.Tax.and.Post.Transfer.Top.1..Share"
-            //         wealth_dist_top10 = "Post.Tax.and.Post.Transfer.Top.10..Share"
-            //     } else if (wealth_dist === "Post-Tax"){
-            //         wealth_dist_top1 = "Post.Tax.Top.1..Share"
-            //         wealth_dist_top10 = "Post.Tax.Top.10..Share"
-            //     } else {
-            //         wealth_dist_top1 = "Pre.Tax.Top.1..Share"
-            //         wealth_dist_top10 = "Pre.Tax.Top.10..Share"
-            //     }
-            //
-            //     removeLineChart();
-            //     drawLineChart(
-            //         data=percentiles_data,
-            //         svg="#svg-1",
-            //         draw_line_only=false,
-            //         x_axis_var=percentiles,
-            //         y_axis_var=networth,
-            //         x_axis_val="Percentiles",
-            //         y_axis_val=wealth_dist,
-            //         filter_var="Year",
-            //         filter_value=2019,
-            //         parse_time=false,
-            //         area_chart=true);
-            //
-            //     drawLineChart(
-            //         data=racial_wealth_gap_data,
-            //         svg="#svg-2",
-            //         draw_line_only=false,
-            //         x_axis_var='',
-            //         y_axis_var='Racial Wealth Gap - Observed',
-            //         x_axis_val='',
-            //         y_axis_val='Racial Wealth Gap - Observed',
-            //         filter_var=null,
-            //         filter_value=null,
-            //         parse_time=true);
-            //
-            //     drawLineChart(
-            //         data=wealth_tax_revenue_data,
-            //         svg="#svg-3",
-            //         draw_line_only=false,
-            //         x_axis_var=years,
-            //         y_axis_var=overall_share,
-            //         x_axis_val="Year_timeparsed",
-            //         y_axis_val=wealth_dist_top10,
-            //         filter_var=null,
-            //         filter_value=null,
-            //         parse_time=true);
-            // })
-
             // Percentile
             let percentile_selection = d3.selectAll("input[name='percentile-selection'").on("click",function(){
                 console.log(this.value);
@@ -831,7 +813,6 @@
             })
 
             // DRAW CHARTS
-
             // Ski slope chart
             drawLineChart(
                 data=percentiles_data,
@@ -849,153 +830,157 @@
                 area_chart=true);
 
             // Racial wealth gap data chart
-            drawLineChart(
-                data=racial_wealth_gap_1_15,
-                svg="#svg-2",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="#3da4ab",
-                x_axis_var=years,
-                y_axis_var=observed,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Racial Wealth Gap - Observed",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+            function update_charts(racial_wealth_gap_data,
+                                      wealth_by_race_data,
+                                      share_taxable_wealth_data,
+                                   descriptive_statistics_data){
+                drawLineChart(
+                    data=racial_wealth_gap_data,
+                    svg="#svg-2",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#3da4ab",
+                    x_axis_var=years,
+                    y_axis_var=observed,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Racial Wealth Gap - Observed",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=racial_wealth_gap_1_15,
-                svg="#svg-2",
-                draw_line_only=true,
-                stroke_type="stroke-dasharray",
-                stroke_color="#3da4ab",
-                x_axis_var=years,
-                y_axis_var=observed,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Racial Wealth Gap - Simulated Post-Tax & Transfer",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
-            // End of Racial Wealth Gap data chart
+                drawLineChart(
+                    data=racial_wealth_gap_data,
+                    svg="#svg-2",
+                    draw_line_only=true,
+                    stroke_type="stroke-dasharray",
+                    stroke_color="#3da4ab",
+                    x_axis_var=years,
+                    y_axis_var=observed,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Racial Wealth Gap - Simulated Post-Tax & Transfer",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
+                // End of Racial Wealth Gap data chart
 
-            // Median wealth by race chart
-            drawLineChart(
-                data=wealth_by_race_1_15,
-                svg="#svg-6",
-                draw_line_only=false,
-                stroke_type="stroke-dasharray",
-                stroke_color="#3da4ab",
-                x_axis_var=years,
-                y_axis_var=median_white,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Median White - Observed",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                // Median wealth by race chart
+                drawLineChart(
+                    data=wealth_by_race_data,
+                    svg="#svg-6",
+                    draw_line_only=false,
+                    stroke_type="stroke-dasharray",
+                    stroke_color="#3da4ab",
+                    x_axis_var=years,
+                    y_axis_var=median_white,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Median White - Observed",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=wealth_by_race_1_15,
-                svg="#svg-6",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="#3da4ab",
-                x_axis_var=years,
-                y_axis_var=median_white,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Median White - Simulated Post-Tax & Transfer",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                drawLineChart(
+                    data=wealth_by_race_data,
+                    svg="#svg-6",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#3da4ab",
+                    x_axis_var=years,
+                    y_axis_var=median_white,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Median White - Simulated Post-Tax & Transfer",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=wealth_by_race_1_15,
-                svg="#svg-6",
-                draw_line_only=false,
-                stroke_type="stroke-dasharray",
-                stroke_color="#FF9900",
-                x_axis_var=years,
-                y_axis_var=median_white,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Median Black - Observed",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                drawLineChart(
+                    data=wealth_by_race_data,
+                    svg="#svg-6",
+                    draw_line_only=false,
+                    stroke_type="stroke-dasharray",
+                    stroke_color="#FF9900",
+                    x_axis_var=years,
+                    y_axis_var=median_white,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Median Black - Observed",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=wealth_by_race_1_15,
-                svg="#svg-6",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="#FF9900",
-                x_axis_var=years,
-                y_axis_var=median_white,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Median Black - Simulated Post-Tax & Transfer",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
-            // End of Median wealth by race chart
+                drawLineChart(
+                    data=wealth_by_race_data,
+                    svg="#svg-6",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#FF9900",
+                    x_axis_var=years,
+                    y_axis_var=median_white,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Median Black - Simulated Post-Tax & Transfer",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
+                // End of Median wealth by race chart
 
-            // Top 1% chart
-            drawLineChart(
-                data=share_taxable_wealth_1_15,
-                svg="#svg-3",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="#3da4ab",
-                x_axis_var=years,
-                y_axis_var=wealth_garnered,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Observed Share of Wealth Garnered by Households Above Tax Threshold",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                // Top 1% chart
+                drawLineChart(
+                    data=share_taxable_wealth_data,
+                    svg="#svg-3",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#3da4ab",
+                    x_axis_var=years,
+                    y_axis_var=wealth_garnered,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Observed Share of Wealth Garnered by Households Above Tax Threshold",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=share_taxable_wealth_1_15,
-                svg="#svg-3",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="lightgray",
-                x_axis_var=years,
-                y_axis_var=wealth_garnered,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                drawLineChart(
+                    data=share_taxable_wealth_data,
+                    svg="#svg-3",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="lightgray",
+                    x_axis_var=years,
+                    y_axis_var=wealth_garnered,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=share_taxable_wealth_1_15,
-                svg="#svg-3",
-                draw_line_only=false,
-                stroke_type="stroke-dasharray",
-                stroke_color="#FF9900",
-                x_axis_var=years,
-                y_axis_var=wealth_garnered,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
+                drawLineChart(
+                    data=share_taxable_wealth_data,
+                    svg="#svg-3",
+                    draw_line_only=false,
+                    stroke_type="stroke-dasharray",
+                    stroke_color="#FF9900",
+                    x_axis_var=years,
+                    y_axis_var=wealth_garnered,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
 
-            drawLineChart(
-                data=share_taxable_wealth_1_15,
-                svg="#svg-3",
-                draw_line_only=false,
-                stroke_type="stroke-solid",
-                stroke_color="#FF9900",
-                x_axis_var=years,
-                y_axis_var=wealth_garnered,
-                x_axis_val="Year_timeparsed",
-                y_axis_val="Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t",
-                filter_var=null,
-                filter_value=null,
-                parse_time=true);
-            //End of top 1% chart
+                drawLineChart(
+                    data=share_taxable_wealth_data,
+                    svg="#svg-3",
+                    draw_line_only=false,
+                    stroke_type="stroke-solid",
+                    stroke_color="#FF9900",
+                    x_axis_var=years,
+                    y_axis_var=wealth_garnered,
+                    x_axis_val="Year_timeparsed",
+                    y_axis_val="Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t",
+                    filter_var=null,
+                    filter_value=null,
+                    parse_time=true);
+                //End of top 1% chart
 
             drawTable(
-                data=descriptive_statistics_1_15,
+                data=descriptive_statistics_data,
                 svg="#tab-7",
                 table_id="descriptives-table",
                 columns=["", "US Population", "Cost per Birth", "Children Born", "Total Endowment Program Cost", "Tax Rate"],
@@ -1019,6 +1004,14 @@
                 "Post.Tax.and.Post.Transfer.Top.1..Share"],
                 filter_var="Tax.Rate",
                 filter_value="1");
+            }
+
+            update_charts(racial_wealth_gap_1_15,
+                wealth_by_race_1_15,
+                share_taxable_wealth_1_15,
+                descriptive_statistics_1_15
+            )
+
 
         }); //end data
 
