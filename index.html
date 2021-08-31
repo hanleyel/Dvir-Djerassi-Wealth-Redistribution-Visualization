@@ -205,14 +205,7 @@
             }
         });
 
-        // Load data from Github
-        // var old_files = ["https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
-        // "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
-        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics.csv?token=AFCUSI6QRVOGRAQ2YZZ36V3BAGB2O",
-        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race.csv?token=AFCUSI67LWRPDH2CMDSDYN3BAGB4C",
-        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap.csv?token=AFCUSI6REWQZPNHMKTQFAX3BAGB7G",
-        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh.csv?token=AFCUSI27ZBHPZSEHMAJTEFTBAGCBC"]
-
+// Load data from GitHub
         var files = [
             "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
             "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
@@ -241,15 +234,6 @@
             "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.03_30000.csv",
             "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.03_50000.csv"
         ]
-
-
-        //
-        // var old_promises = [percentiles_data,
-        //     wealth_tax_revenue_data,
-        //     descriptive_statistics_data,
-        //     median_wealth_by_race_data,
-        //     racial_wealth_gap_data,
-        //     share_of_wealth_taxable_hh_data]
 
         var promises = [];
         files.forEach(function(url){
@@ -330,7 +314,6 @@
 
             Object.entries(data_names).forEach(function(file){
                 file[1].forEach(function(d, i){
-                    console.log(d);
                     if (!(file[0].includes("taxable"))){
                         d.Year = parseInt(d[""]);
                         d.Year_timeparsed = parseTime(d.Year);
@@ -361,35 +344,7 @@
             wealth_tax_revenue_data.forEach(function(d){
                 d.Year = parseInt(d.Year);
                 d.Year_timeparsed = parseTime(d.Year);
-            }); 
-
-            // racial_wealth_gap_data.forEach(function(d){
-                // d.Year = parseInt(d[""]);
-                // d.Year_timeparsed = parseTime(d.Year);
-                // d["Racial Wealth Gap - Observed"] = parseFloat(d["Racial Wealth Gap - Observed"]);
-                // d["Racial Wealth Gap - Simulated Post-Tax"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax"]);
-                // d["Racial Wealth Gap - Simulated Post-Tax & Transfer"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax & Transfer"]);
-            // });
-
-            // median_wealth_by_race_data.forEach(function(d){
-                // d.Year = parseInt(d[""]);
-                // d.Year_timeparsed = parseTime(d.Year);
-                // d["Median All - Observed"] = Number(d["Median All - Observed"].replace(/[^0-9.-]+/g,""))
-                // d["Median All - Simulated Post-Tax"] = Number(d["Median All - Simulated Post-Tax"].replace(/[^0-9.-]+/g,""))
-                // d['Median White - Simulated Post-Tax & Transfer'] = Number(d["Median White - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
-                // d['Median White - Observed'] = Number(d["Median White - Observed"].replace(/[^0-9.-]+/g,""))
-                // d['Median Black - Simulated Post-Tax & Transfer'] = Number(d["Median Black - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
-                // d['Median Black - Observed'] = Number(d["Median Black - Observed"].replace(/[^0-9.-]+/g,""))
-            // });
-
-            // share_of_wealth_taxable_hh_data.forEach(function(d,i){
-            //     d.Year = median_wealth_by_race_data[i].Year;
-            //     d.Year_timeparsed = parseTime(d.Year);
-            //     d['Observed Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Observed Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-            //     d['Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t'] = Number(d["Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t"].replace(/[^0-9.-]+/g,""))
-            //     d['Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-            //     d['Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-            // })
+            });
 
             // Unique values for scaling axes
             let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
@@ -566,12 +521,6 @@
                     "translate(" + margin.left + "," + margin.top + ")")
                 .attr("id", "svg-6");
 
-            // // Append chart export button to body
-            // let exportButton = d3.select(".tab-content").append("button")
-            //     .attr("id", "saveButton")
-            //     .attr("class", "btn btn-secondary")
-            //     .text("Export as PNG");
-
             // Functions to draw and update axes
             function updateXAxis(data, svg_id, parse_time){
                 var x = d3.scaleLinear().domain([Number(d3.min(data)),Number(d3.max(data))]).range([0,width]);
@@ -639,9 +588,6 @@
                         .x(function(d) {
                             return x(d[x_axis_val])})
                         .y(function(d) {
-                            console.log(d);
-                            console.log(y_axis_val);
-                            console.log(d[y_axis_val]);
                             return y(d[y_axis_val])})
                     )
                     .attr("class",'linechart');
@@ -701,6 +647,7 @@
 
             // Function to draw tables
             function drawTable(data, svg, table_id, columns, filter_var, filter_value){
+                console.log("Drawing table "+table_id);
                 var table = d3.select(svg).append('table').attr("class","table-bordered table-hover table-light")
                 var thead = table.append('thead')
                 var	tbody = table.append('tbody');
@@ -735,13 +682,19 @@
 
                 // create a row for each object in the data
                 var rows = tbody.selectAll('tr')
-                    .data(data.filter(function(d) { return d[filter_var] === filter_value }))
+                    .data(data.filter(function(d) {
+                        console.log('Drawing rows');
+                        if (filter_value!= null) {
+                            return d[filter_var] === filter_value
+                        } else return d
+                        }))
                     .enter()
                     .append('tr');
 
                 // create a cell in each row for each column
                 var cells = rows.selectAll('td')
                     .data(function (row) {
+                        console.log("Drawing cells");
                         return columns.map(function (column) {
                             return {column: column, value: row[column]};
                         });
@@ -754,8 +707,10 @@
                     .html(function (d) {
                         if (!(d.value.toString().includes("$"))) {
                             if (parseFloat(d.value) < 1) {
+                                console.log(d.value);
                                 return parseFloat(d.value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             } else {
+                                console.log(d.value);
                                 if (d.value >= 1000000000) {
                                     return (d.value / 1000000000).toFixed(1).replace(/\.0$/, '').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + 'B';
                                 }
@@ -765,6 +720,7 @@
                                 return parseInt(d.value);
                             }
                         } else{
+                            console.log(d.value);
                             return d.value.toString();
                         }
                     }
@@ -773,180 +729,6 @@
 
                 return table;
             }
-
-            // Function to export selected image on export button click
-            function exportImage(image_id){
-                console.log('Export image');
-                d3.select('#saveButton').on('click', function(){
-                    console.log('saveButton click');
-                    let svgString = getSVGString(document.getElementById(image_id));
-                    console.log(svgString);
-                    var blob = new Blob([svgString], {type:"image/svg+xml"});
-                    saveAs(blob, 'testfile');
-                    // console.log(svgString);
-                    // svgString2Image(svgString, 2*width, 2*height, 'png'); // passes Blob and filesize String to the callback
-
-                    // function save(dataBlob, filesize){
-                        // console.log('saving');
-                        // console.log(dataBlob);
-                        // saveAs(dataBlob, 'D3 vis exported to PNG.png'); // FileSaver.js function
-                    // }
-                });
-            }
-
-            // getSVGString ( svgNode ) and svgString2Image( svgString, width, height, format, callback )
-            function getSVGString( svgNode ) {
-                // svgNode.setAttribute('xlink', 'http://www.w3.org/2000/xlink');
-                var cssStyleText = getCSSStyles( svgNode );
-                // appendCSS( cssStyleText, svgNode );
-
-                var serializer = new XMLSerializer();
-                // var svgString = serializer.serializeToString(svgNode);
-                // svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
-                // svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
-
-                var head = 'svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
-
-                var svgString = head+'<style>'+cssStyleText+'</style>'+svgNode+'</svg>'
-                console.log(svgString);
-                return svgString;
-
-                function getCSSStyles( parentElement ) {
-                    var selectorTextArr = [];
-
-                    // Add Parent element Id and Classes to the list
-                    selectorTextArr.push( '#'+parentElement.id );
-                    for (var c = 0; c < parentElement.classList.length; c++)
-                        if ( !contains('.'+parentElement.classList[c], selectorTextArr) )
-                            selectorTextArr.push( '.'+parentElement.classList[c] );
-
-                    // Add Children element Ids and Classes to the list
-                    var nodes = parentElement.getElementsByTagName("*");
-                    for (var i = 0; i < nodes.length; i++) {
-                        var id = nodes[i].id;
-                        if ( !contains('#'+id, selectorTextArr) )
-                            selectorTextArr.push( '#'+id );
-
-                        var classes = nodes[i].classList;
-                        for (var c = 0; c < classes.length; c++)
-                            if ( !contains('.'+classes[c], selectorTextArr) )
-                                selectorTextArr.push( '.'+classes[c] );
-                    }
-
-                    // Extract CSS Rules
-                    var extractedCSSText = "";
-                    for (var i = 0; i < document.styleSheets.length; i++) {
-                        var s = document.styleSheets[i];
-
-                        try {
-                            if(!s.cssRules) continue;
-                        } catch( e ) {
-                            if(e.name !== 'SecurityError') throw e; // for Firefox
-                            continue;
-                        }
-
-                        var cssRules = s.cssRules;
-                        for (var r = 0; r < cssRules.length; r++) {
-                            if ( contains( cssRules[r].selectorText, selectorTextArr ) )
-                                extractedCSSText += cssRules[r].cssText;
-                        }
-                    }
-
-
-                    return extractedCSSText;
-
-                    function contains(str,arr) {
-                        return arr.indexOf( str ) === -1 ? false : true;
-                    }
-
-                }
-
-                function appendCSS( cssText, element ) {
-                    var styleElement = document.createElement("style");
-                    styleElement.setAttribute("type","text/css");
-                    styleElement.innerHTML = cssText;
-                    var refNode = element.hasChildNodes() ? element.children[0] : null;
-                    element.insertBefore( styleElement, refNode );
-
-                }
-
-            }
-
-
-            // function svgString2Image( svgString, width, height, format) {
-                // var svg_data = document.getElementById("svg-1").innerHTML
-                // var head = '<svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
-                // var style = '<style></style>'
-                // var full_svg = head+style+svg_data+'</svg>'
-                // var blob = new Blob([full_svg], {type:"image/svg+xml"});
-                // saveAs(blob, 'test.svg');
-
-                //var format = format ? format : 'png';
-
-                // var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
-                // var imgsrc = svgString;
-
-                // var blob = new Blob([svgString], {type:"image/svg+xml"});
-                // var canvas = document.createElement("canvas");
-                // var context = canvas.getContext("2d");
-
-                // canvas.width = width;
-                // canvas.height = height;
-
-                // canvas.toBlob(function(){
-                //     var blob = new Blob([svgString], {type:"image/svg+xml"});
-                //     console.log(svgString);
-                    // console.log(blob);
-                    // var filesize = Math.round( blob.length/1024 ) + ' KB';
-                    // // if ( callback ) callback( blob, filesize );
-                    //
-                    // var newImg = document.createElement('img'),
-                    //     url=URL.createObjectURL(blob);
-                    //
-                    // newImg.onload=function() {
-                    //     URL.revokeObjectURL(url);
-                    // };
-                    // newImg.src=url;
-                    // document.body.appendChild(newImg);
-
-                    // saveAs(blob, 'testfile');
-                // });
-
-                // canvas.toBlob( function(blob) {
-                //     var filesize = Math.round( blob.length/1024 ) + ' KB';
-                //     if ( callback ) callback( blob, filesize );
-                // });
-
-
-                // var image = new Image();
-                // // console.log(image);
-                // // console.log(svgString);
-                // image.onload = function() {
-                //     console.log('image load');
-                //     context.clearRect ( 0, 0, width, height );
-                //     context.drawImage(image, 0, 0, width, height);
-                //
-                //     canvas.toBlob( function(blob) {
-                //         var filesize = Math.round( blob.length/1024 ) + ' KB';
-                //         if ( callback ) callback( blob, filesize );
-                //     });
-                //
-                //
-                // };
-                //
-                // image.src = imgsrc;
-            // }
-
-            function save_as_svg(){
-                var svg_data = document.getElementById("svg-1").innerHTML
-                var head = 'svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
-                var style = '<style></style>'
-                var full_svg = head+style+svg_data+"</svg>"
-                var blob = new Blob([full_svg], {type:"image/svg+xml"});
-                saveAs(blob, 'test.svg');
-            }
-
-
 
             // Run Code
             // Get radio button values for filtering data
@@ -1080,20 +862,6 @@
                 filter_var=null,
                 filter_value=null,
                 parse_time=true);
-
-            // drawLineChart(
-            //     data=racial_wealth_gap_data,
-            //     svg="#svg-2",
-            //     draw_line_only=true,
-            //     stroke_type="stroke-dasharray",
-            //     stroke_color="#FF9900",
-            //     x_axis_var=years,
-            //     y_axis_var=observed,
-            //     x_axis_val="Year_timeparsed",
-            //     y_axis_val="Racial Wealth Gap - Simulated Post-Tax",
-            //     filter_var=null,
-            //     filter_value=null,
-            //     parse_time=true);
 
             drawLineChart(
                 data=racial_wealth_gap_1_15,
@@ -1231,8 +999,8 @@
                 svg="#tab-7",
                 table_id="descriptives-table",
                 columns=["", "US Population", "Cost per Birth", "Children Born", "Total Endowment Program Cost", "Tax Rate"],
-                filter_var="Cost per Birth",
-                filter_value="$17,482");
+                filter_var=null,
+                filter_value=null);
 
             drawTable(
                 data=wealth_tax_revenue_data,
@@ -1246,14 +1014,11 @@
             drawTable(
                 data=wealth_tax_revenue_data,
                 svg="#tab-5",
-                table_id="aggregate-table",
+                table_id="revenue-table",
                 columns=["Year", "Pre.Tax.Top.1..Share", "Post.Tax.Top.1..Share",
                 "Post.Tax.and.Post.Transfer.Top.1..Share"],
                 filter_var="Tax.Rate",
                 filter_value="1");
-
-            exportImage("svg-1");
-            // save_as_svg();
 
         }); //end data
 
