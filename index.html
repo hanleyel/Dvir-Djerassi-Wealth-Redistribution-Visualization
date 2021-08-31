@@ -206,31 +206,108 @@
         });
 
         // Load data from Github
-        var files = ["https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/2019_scf_w_forbes.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/forbes_400.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf_2019.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/scf.csv",
-        "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
-        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics.csv?token=AFCUSI6QRVOGRAQ2YZZ36V3BAGB2O",
-        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race.csv?token=AFCUSI67LWRPDH2CMDSDYN3BAGB4C",
-        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap.csv?token=AFCUSI6REWQZPNHMKTQFAX3BAGB7G",
-        "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh.csv?token=AFCUSI27ZBHPZSEHMAJTEFTBAGCBC"]
+        // var old_files = ["https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
+        // "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
+        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics.csv?token=AFCUSI6QRVOGRAQ2YZZ36V3BAGB2O",
+        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race.csv?token=AFCUSI67LWRPDH2CMDSDYN3BAGB4C",
+        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap.csv?token=AFCUSI6REWQZPNHMKTQFAX3BAGB7G",
+        // "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh.csv?token=AFCUSI27ZBHPZSEHMAJTEFTBAGCBC"]
+
+        var files = [
+            "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/wealth_tax_revenue_df.csv",
+            "https://raw.githubusercontent.com/AsherDvirDjerassi/WealthTax-Redistribution/main/percentiles_df.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.01_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.01_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.01_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.03_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.03_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/descriptive_statistics_0.03_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.01_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.01_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.01_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.03_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.03_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/median_wealth_by_race_0.03_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.01_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.01_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.01_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.03_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.03_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/racial_wealth_gap_0.03_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.01_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.01_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.01_50000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.03_15000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.03_30000.csv",
+            "https://raw.githubusercontent.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization/main/csv/share_of_wealth_taxable_hh_0.03_50000.csv"
+        ]
+
+
+        //
+        // var old_promises = [percentiles_data,
+        //     wealth_tax_revenue_data,
+        //     descriptive_statistics_data,
+        //     median_wealth_by_race_data,
+        //     racial_wealth_gap_data,
+        //     share_of_wealth_taxable_hh_data]
+
         var promises = [];
         files.forEach(function(url){
             promises.push(d3.csv(url))
         });
         // The parameter functions here are the names of the datasets
-        Promise.all(promises).then(function([percentiles_data,
-                                                scf_forbes_data,
-                                                forbes_400_data,
-                                                scf_2019_data,
-                                                scf_data,
-                                                wealth_tax_revenue_data,
-                                                descriptive_statistics_data,
-                                                median_wealth_by_race_data,
-                                                racial_wealth_gap_data,
-                                                share_of_wealth_taxable_hh_data]){
+        Promise.all(promises).then(function([wealth_tax_revenue_data,
+                                                percentiles_data,
+                                                descriptive_statistics_1_15,
+                                                descriptive_statistics_1_30,
+                                                descriptive_statistics_1_50,
+                                                descriptive_statistics_3_15,
+                                                descriptive_statistics_3_30,
+                                                descriptive_statistics_3_50,
+                                                wealth_by_race_1_15,
+                                                wealth_by_race_1_30,
+                                                wealth_by_race_1_50,
+                                                wealth_by_race_3_15,
+                                                wealth_by_race_3_30,
+                                                wealth_by_race_3_50,
+                                                racial_wealth_gap_1_15,
+                                                racial_wealth_gap_1_30,
+                                                racial_wealth_gap_1_50,
+                                                racial_wealth_gap_3_15,
+                                                racial_wealth_gap_3_30,
+                                                racial_wealth_gap_3_50,
+                                                share_taxable_wealth_1_15,
+                                                share_taxable_wealth_1_30,
+                                                share_taxable_wealth_1_50,
+                                                share_taxable_wealth_3_15,
+                                                share_taxable_wealth_3_30,
+                                                share_taxable_wealth_3_50]){
+
+            var data_names = {
+                "descriptive_statistics_1_15":descriptive_statistics_1_15,
+                "descriptive_statistics_1_30":descriptive_statistics_1_30,
+                "descriptive_statistics_1_50":descriptive_statistics_1_50,
+                "descriptive_statistics_3_15":descriptive_statistics_3_15,
+                "descriptive_statistics_3_30":descriptive_statistics_3_30,
+                "descriptive_statistics_3_50":descriptive_statistics_3_50,
+                "wealth_by_race_1_15":wealth_by_race_1_15,
+                "wealth_by_race_1_30":wealth_by_race_1_30,
+                "wealth_by_race_1_50":wealth_by_race_1_50,
+                "wealth_by_race_3_15":wealth_by_race_3_15,
+                "wealth_by_race_3_30":wealth_by_race_3_30,
+                "wealth_by_race_3_50":wealth_by_race_3_50,
+                "racial_wealth_gap_1_15":racial_wealth_gap_1_15,
+                "racial_wealth_gap_1_30":racial_wealth_gap_1_30,
+                "racial_wealth_gap_1_50":racial_wealth_gap_1_50,
+                "racial_wealth_gap_3_15":racial_wealth_gap_3_15,
+                "racial_wealth_gap_3_30":racial_wealth_gap_3_30,
+                "racial_wealth_gap_3_50":racial_wealth_gap_3_50,
+                "share_taxable_wealth_1_15":share_taxable_wealth_1_15,
+                "share_taxable_wealth_1_30":share_taxable_wealth_1_30,
+                "share_taxable_wealth_1_50":share_taxable_wealth_1_50,
+                "share_taxable_wealth_3_15":share_taxable_wealth_3_15,
+                "share_taxable_wealth_3_30":share_taxable_wealth_3_30,
+                "share_taxable_wealth_3_50":share_taxable_wealth_3_50};
 
             // Set constants
             const margin = {top: 10, right: 80, bottom: 30, left: 80}
@@ -243,56 +320,88 @@
             var parseTime = d3.timeParse("%Y");
 
             // format the data
+
             percentiles_data.forEach(function(d) {
                 d.Year = parseInt(d.Year);
                 d.Year_timeparsed = parseTime(d.Year);
                 d.Networth = parseInt(d.Networth);
                 d.Percentiles = parseInt(d.Percentiles*100)
             });
+
+            Object.entries(data_names).forEach(function(file){
+                file[1].forEach(function(d, i){
+                    console.log(d);
+                    if (!(file[0].includes("taxable"))){
+                        d.Year = parseInt(d[""]);
+                        d.Year_timeparsed = parseTime(d.Year);
+                    }
+                    if (file[0].includes("race")){
+                        d["Median All - Observed"] = Number(d["Median All - Observed"].replace(/[^0-9.-]+/g,""))
+                        d["Median All - Simulated Post-Tax"] = Number(d["Median All - Simulated Post-Tax"].replace(/[^0-9.-]+/g,""))
+                        d['Median White - Simulated Post-Tax & Transfer'] = Number(d["Median White - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
+                        d['Median White - Observed'] = Number(d["Median White - Observed"].replace(/[^0-9.-]+/g,""))
+                        d['Median Black - Simulated Post-Tax & Transfer'] = Number(d["Median Black - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
+                        d['Median Black - Observed'] = Number(d["Median Black - Observed"].replace(/[^0-9.-]+/g,""))
+                    }
+                    if (file[0].includes("gap")){
+                        d["Racial Wealth Gap - Observed"] = parseFloat(d["Racial Wealth Gap - Observed"].replace(/[^0-9.-]+/g,""));
+                        d["Racial Wealth Gap - Simulated Post-Tax"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax"].replace(/[^0-9.-]+/g,""));
+                        d["Racial Wealth Gap - Simulated Post-Tax & Transfer"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""));
+                    }
+                    if (file[0].includes("taxable")){
+                        d.Year = data_names["wealth_by_race_1_15"][i].Year;
+                        d.Year_timeparsed = parseTime(d.Year);
+                        d['Observed Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Observed Share of Wealth Garnered by Households Above Tax Threshold"])
+                        d['Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t'] = Number(d["Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t"])
+                        d['Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold"])
+                        d['Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold"])
+                    }
+                });
+            });
             wealth_tax_revenue_data.forEach(function(d){
                 d.Year = parseInt(d.Year);
-               d.Year_timeparsed = parseTime(d.Year);
-            });
-
-            racial_wealth_gap_data.forEach(function(d){
-                d.Year = parseInt(d[""]);
                 d.Year_timeparsed = parseTime(d.Year);
-                d["Racial Wealth Gap - Observed"] = parseFloat(d["Racial Wealth Gap - Observed"]);
-                d["Racial Wealth Gap - Simulated Post-Tax"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax"]);
-                d["Racial Wealth Gap - Simulated Post-Tax & Transfer"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax & Transfer"]);
-            });
+            }); 
 
-            median_wealth_by_race_data.forEach(function(d){
-                d.Year = parseInt(d[""]);
-                d.Year_timeparsed = parseTime(d.Year);
-                d["Median All - Observed"] = Number(d["Median All - Observed"].replace(/[^0-9.-]+/g,""))
-                d["Median All - Simulated Post-Tax"] = Number(d["Median All - Simulated Post-Tax"].replace(/[^0-9.-]+/g,""))
-                d['Median White - Simulated Post-Tax & Transfer'] = Number(d["Median White - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
-                d['Median White - Observed'] = Number(d["Median White - Observed"].replace(/[^0-9.-]+/g,""))
-                d['Median Black - Simulated Post-Tax & Transfer'] = Number(d["Median Black - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
-                d['Median Black - Observed'] = Number(d["Median Black - Observed"].replace(/[^0-9.-]+/g,""))
-            });
+            // racial_wealth_gap_data.forEach(function(d){
+                // d.Year = parseInt(d[""]);
+                // d.Year_timeparsed = parseTime(d.Year);
+                // d["Racial Wealth Gap - Observed"] = parseFloat(d["Racial Wealth Gap - Observed"]);
+                // d["Racial Wealth Gap - Simulated Post-Tax"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax"]);
+                // d["Racial Wealth Gap - Simulated Post-Tax & Transfer"] = parseFloat(d["Racial Wealth Gap - Simulated Post-Tax & Transfer"]);
+            // });
 
-            share_of_wealth_taxable_hh_data.forEach(function(d,i){
-                d.Year = median_wealth_by_race_data[i].Year;
-                d.Year_timeparsed = parseTime(d.Year);
-                d['Observed Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Observed Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-                d['Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t'] = Number(d["Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t"].replace(/[^0-9.-]+/g,""))
-                d['Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-                d['Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
-            })
+            // median_wealth_by_race_data.forEach(function(d){
+                // d.Year = parseInt(d[""]);
+                // d.Year_timeparsed = parseTime(d.Year);
+                // d["Median All - Observed"] = Number(d["Median All - Observed"].replace(/[^0-9.-]+/g,""))
+                // d["Median All - Simulated Post-Tax"] = Number(d["Median All - Simulated Post-Tax"].replace(/[^0-9.-]+/g,""))
+                // d['Median White - Simulated Post-Tax & Transfer'] = Number(d["Median White - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
+                // d['Median White - Observed'] = Number(d["Median White - Observed"].replace(/[^0-9.-]+/g,""))
+                // d['Median Black - Simulated Post-Tax & Transfer'] = Number(d["Median Black - Simulated Post-Tax & Transfer"].replace(/[^0-9.-]+/g,""))
+                // d['Median Black - Observed'] = Number(d["Median Black - Observed"].replace(/[^0-9.-]+/g,""))
+            // });
+
+            // share_of_wealth_taxable_hh_data.forEach(function(d,i){
+            //     d.Year = median_wealth_by_race_data[i].Year;
+            //     d.Year_timeparsed = parseTime(d.Year);
+            //     d['Observed Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Observed Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
+            //     d['Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t'] = Number(d["Simulated Share of Wealth Garnered by Households Above Tax Threshold Before Tax in Year t"].replace(/[^0-9.-]+/g,""))
+            //     d['Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
+            //     d['Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold'] = Number(d["Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold"].replace(/[^0-9.-]+/g,""))
+            // })
 
             // Unique values for scaling axes
             let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
             let networth = percentiles_data.map(d=>d["Networth"]).sort();
             let percentiles = percentiles_data.map(d=>d["Percentiles"]).sort();
             let overall_share = Array.from({length:11},(x,i)=>(i/10));
-            let observed = racial_wealth_gap_data.map(d=>d['Racial Wealth Gap - Observed']).sort();
-            let post_tax = racial_wealth_gap_data.map(d=>d['Racial Wealth Gap - Simulated Post-Tax']).sort();
-            let transferred = racial_wealth_gap_data.map(d=>d['Racial Wealth Gap - Simulated Post-Tax & Transfer']).sort();
-            let median_observed = median_wealth_by_race_data.map(d=>d['Median All - Observed']).sort();
-            let median_white = median_wealth_by_race_data.map(d=>d['Median White - Observed']).sort();
-            let wealth_garnered = share_of_wealth_taxable_hh_data.map(d=>d['Observed Share of Wealth Garnered by Households Above Tax Threshold']).sort();
+            let observed = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Observed']).sort();
+            let post_tax = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Simulated Post-Tax']).sort();
+            let transferred = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Simulated Post-Tax & Transfer']).sort();
+            let median_observed = wealth_by_race_1_15.map(d=>d['Median All - Observed']).sort();
+            let median_white = wealth_by_race_1_15.map(d=>d['Median White - Observed']).sort();
+            let wealth_garnered = share_taxable_wealth_1_15.map(d=>d['Observed Share of Wealth Garnered by Households Above Tax Threshold']).sort();
 
             // Append tooltip div to body
             let tooltip = d3.select("body").append("div")
@@ -530,6 +639,9 @@
                         .x(function(d) {
                             return x(d[x_axis_val])})
                         .y(function(d) {
+                            console.log(d);
+                            console.log(y_axis_val);
+                            console.log(d[y_axis_val]);
                             return y(d[y_axis_val])})
                     )
                     .attr("class",'linechart');
@@ -549,7 +661,7 @@
                     .attr("cy", function(d){
                         return y(d[y_axis_val])})
                     .attr("class","linechart")
-                    .style("fill",stroke_color)
+                    .style("fill","black")
                     .style("stroke","none")
                     .style("pointer-events","all")
                     .on("mouseover", function(event, d) {
@@ -956,7 +1068,7 @@
 
             // Racial wealth gap data chart
             drawLineChart(
-                data=racial_wealth_gap_data,
+                data=racial_wealth_gap_1_15,
                 svg="#svg-2",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -984,7 +1096,7 @@
             //     parse_time=true);
 
             drawLineChart(
-                data=racial_wealth_gap_data,
+                data=racial_wealth_gap_1_15,
                 svg="#svg-2",
                 draw_line_only=true,
                 stroke_type="stroke-dasharray",
@@ -1000,7 +1112,7 @@
 
             // Median wealth by race chart
             drawLineChart(
-                data=median_wealth_by_race_data,
+                data=wealth_by_race_1_15,
                 svg="#svg-6",
                 draw_line_only=false,
                 stroke_type="stroke-dasharray",
@@ -1014,7 +1126,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=median_wealth_by_race_data,
+                data=wealth_by_race_1_15,
                 svg="#svg-6",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -1028,7 +1140,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=median_wealth_by_race_data,
+                data=wealth_by_race_1_15,
                 svg="#svg-6",
                 draw_line_only=false,
                 stroke_type="stroke-dasharray",
@@ -1042,7 +1154,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=median_wealth_by_race_data,
+                data=wealth_by_race_1_15,
                 svg="#svg-6",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -1058,7 +1170,7 @@
 
             // Top 1% chart
             drawLineChart(
-                data=share_of_wealth_taxable_hh_data,
+                data=share_taxable_wealth_1_15,
                 svg="#svg-3",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -1072,7 +1184,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=share_of_wealth_taxable_hh_data,
+                data=share_taxable_wealth_1_15,
                 svg="#svg-3",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -1086,7 +1198,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=share_of_wealth_taxable_hh_data,
+                data=share_taxable_wealth_1_15,
                 svg="#svg-3",
                 draw_line_only=false,
                 stroke_type="stroke-dasharray",
@@ -1100,7 +1212,7 @@
                 parse_time=true);
 
             drawLineChart(
-                data=share_of_wealth_taxable_hh_data,
+                data=share_taxable_wealth_1_15,
                 svg="#svg-3",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
@@ -1115,7 +1227,7 @@
             //End of top 1% chart
 
             drawTable(
-                data=descriptive_statistics_data,
+                data=descriptive_statistics_1_15,
                 svg="#tab-7",
                 table_id="descriptives-table",
                 columns=["", "US Population", "Cost per Birth", "Children Born", "Total Endowment Program Cost", "Tax Rate"],
