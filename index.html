@@ -42,8 +42,6 @@
                     <label for="_1">1%</label><br>
                     <input type="radio" id="_3" name="return-size" value="_3">
                     <label for="_3">3%</label><br>
-<!--                    <input type="radio" id="return-real" name="return-size" value="return-real">-->
-<!--                    <label for="return-real">Real Rate of Return</label>-->
                 </form>
             </div>
         </div>
@@ -76,12 +74,13 @@
                 </li>
             </ul>
             <div class="tab-content">
-<!--                <div><p>This simulated wealth tax would raise {$dollars} in {$year}.</br>-->
-<!--                This program would provide a wealth endowment of {$dollars} per person in {$year}.</p></div>-->
                 <div id="tab-0" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0">
                     <br>
                     <h3>[Add "About" header here!]</h3>
                     <p>[Add "About" text here!]</p>
+                    <p><a href="https://github.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization" target="_blank" rel="noopener noreferrer">
+                        Add link to methods here! (Replace the link in "href" with a link to your methods.)
+                    </a></p>
                 </div>
                 <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1">
                     <p></p>
@@ -89,7 +88,7 @@
                         <div class="tab-pane" id="filter-4">
                             <div>
                                 <p><b>Year</b></p>
-                                <label for="years">Choose a year:</label>
+<!--                                <label for="years">Choose a year:</label>-->
                                 <select name="years" id="years">
                                     <option value="2019">2019</option>
                                     <option value="2016">2016</option>
@@ -115,13 +114,21 @@
                 <div id="tab-7" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-7"><p></p></div>
                 <div id="tab-4" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-4"><p></p></div>
                 <div id="tab-5" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-5"><p></p></div>
+
+                <div id="legend" style="display:none">
+                    <p><b>Legend</b></p>
+                    <svg id="legend-1"></svg>
+                    <svg id="legend-2"></svg>
+                    <svg id="legend-3"></svg>
+                </div>
+
             </div>
-            <div id="legend" style="display:none">
-                <p><b>Legend</b></p>
-                <svg id="legend-1"></svg>
-                <svg id="legend-2"></svg>
-                <svg id="legend-3"></svg>
-            </div>
+<!--            <div id="legend" style="display:none">-->
+<!--                <p><b>Legend</b></p>-->
+<!--                <svg id="legend-1"></svg>-->
+<!--                <svg id="legend-2"></svg>-->
+<!--                <svg id="legend-3"></svg>-->
+<!--            </div>-->
         </div>
 </div>
 <script>
@@ -136,24 +143,19 @@
                 $("#filter-1").css('display','block'); // can change to 'display', 'none' to remove filters from a given vis
                 $("#filter-2").css('display','block');
                 $("#filter-4").css('display','block');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','none');
 
             }
             else if (this.id === "li-tab-0"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','block');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','none');
             }
             else if (this.id === "li-tab-2"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','inline-block');
                 $("#legend-1").css('display','block');
                 $("#legend-2").css('display','none');
@@ -162,9 +164,7 @@
             else if (this.id==="li-tab-3"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','inline-block');
                 $("#legend-1").css('display','none');
                 $("#legend-2").css('display','none');
@@ -174,14 +174,12 @@
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','none');
             }
             else if (this.id === "li-tab-6"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','inline-block');
                 $("#legend-1").css('display','none');
                 $("#legend-2").css('display','block');
@@ -190,17 +188,13 @@
             else if (this.id === "li-tab-7"){
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','none');
             }
             else{
                 $("#filter-1").css('display','block');
                 $("#filter-2").css('display','block');
-                // $("#filter-3").css('display','none');
                 $("#filter-4").css('display','none');
-                // $("#filter-5").css('display','block');
                 $("#legend").css('display','none');
             }
         });
@@ -296,15 +290,24 @@
             // Set constants
             const margin = {top: 10, right: 80, bottom: 30, left: 80}
 
+            // Get width and height based on browser window size
+            const browser_width = window.innerWidth;
+            const browser_height = window.innerHeight;
+            console.log(browser_width);
+            console.log(browser_height);
+
             // Gets width and height based on div size
-            const width = (d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right)*.95;
-            const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
+            // const width = (d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right)*.95;
+            // const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
+            const width = browser_width*.7
+            const height = browser_height*.5
+            console.log(width);
+            console.log(height);
 
             // parse the date / time
             var parseTime = d3.timeParse("%Y");
 
             // format the data
-
             percentiles_data.forEach(function(d) {
                 d.Year = parseInt(d.Year);
                 d.Year_timeparsed = parseTime(d.Year);
@@ -350,11 +353,7 @@
             let years = [...new Set(percentiles_data.map(d=>parseTime(d["Year"])))].sort();
             let networth = percentiles_data.map(d=>d["Networth"]).sort();
             let percentiles = percentiles_data.map(d=>d["Percentiles"]).sort();
-            let overall_share = Array.from({length:11},(x,i)=>(i/10));
             let observed = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Observed']).sort();
-            let post_tax = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Simulated Post-Tax']).sort();
-            let transferred = racial_wealth_gap_1_15.map(d=>d['Racial Wealth Gap - Simulated Post-Tax & Transfer']).sort();
-            let median_observed = wealth_by_race_1_15.map(d=>d['Median All - Observed']).sort();
             let median_white = wealth_by_race_1_15.map(d=>d['Median White - Observed']).sort();
             let wealth_garnered = share_taxable_wealth_1_15.map(d=>d['Observed Share of Wealth Garnered by Households Above Tax Threshold']).sort();
 
@@ -481,24 +480,25 @@
             // Append SVGs to tab-content to draw charts
             let svg_1 = d3.select("#tab-1").append("svg")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + (margin.bottom*2))
+                .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")")
-                .attr("id", "svg-1")
-                svg_1.append("text")
+                .attr("id", "svg-1");
+            svg_1.append("text")
                 .attr("class", "x label")
                 .attr("text-anchor", "end")
                 .attr("x", width*.6)
                 .attr("y", height + 50)
                 .text("U.S. Wealth Percentiles")
-                svg_1.append("text")
+            svg_1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "end")
                 .attr("y", -80)
+                    .attr("x", -80)
                 .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
-                .text("Share of Wealth (in U.S. Dollars)            ");
+                .text("Share of Wealth (in U.S. Dollars)");
             d3.select("#tab-2").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -640,11 +640,6 @@
                 d3.selectAll(svg).selectAll(".linechart").remove();
                 d3.selectAll(svg).selectAll(".x-axis").remove();
                 d3.selectAll(svg).selectAll(".y-axis").remove();
-            }
-
-            // Function to draw ski slope chart
-            function drawSkislopeChart(){
-                console.log('ski slope chart')
             }
 
             // Function to draw tables
