@@ -221,8 +221,7 @@ table, th, td {
     }
 
     .tab-content{
-        width:77%;
-        margin-left:3%;
+        width:100%;
         display:flex;
         flex-direction:column;
     }
@@ -261,7 +260,6 @@ table, th, td {
 
     #legend{
         width:100%;
-        margin-left:20%;
         display:inline-block;
     }
 
