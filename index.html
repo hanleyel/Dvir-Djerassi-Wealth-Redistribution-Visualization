@@ -636,10 +636,10 @@
             }
 
             // Function to remove line chart
-            function removeLineChart(){
-                d3.selectAll(".linechart").remove();
-                d3.selectAll(".x-axis").remove();
-                d3.selectAll(".y-axis").remove();
+            function removeLineChart(svg){
+                d3.selectAll(svg).selectAll(".linechart").remove();
+                d3.selectAll(svg).selectAll(".x-axis").remove();
+                d3.selectAll(svg).selectAll(".y-axis").remove();
             }
 
             // Function to draw ski slope chart
