@@ -18,9 +18,8 @@
 </head>
 <body>
 <div class="dashboard-title">
-    <h1>100% Wealth Tax on All Fortunes Over $100 Million</h1>
-    <h4>Wealth inequality in the United States is dramatic.</br>This interactive tool outlines the potential
-    consequences of a radical wealth redistribution program.</h4>
+    <h2>How would a universal capital endowment financed by a wealth tax on the top 1 percent have affected wealth inequality?</h2>
+    <h4>This interactive tool visualizes and summarizes what the consequences of such a policy may have been had all children born in or after 1962 have been granted a universal capital endowment.</h4>
 </div>
 <div class="row">
         <div id="select-multiple" class="filter-container">
@@ -51,9 +50,9 @@
                 <li class="" id="li-tab-0" role="presentation">
                     <a id="ui-tab-0" href="#tab-0" data-target="#tab-0" data-toggle="tab" data-value="">About</a>
                 </li>
-                <li class="" id="li-tab-1" role="presentation">
+                <!-- <li class="" id="li-tab-1" role="presentation">
                     <a id="ui-tab-1" class="active" href="#tab-1" data-target="#tab-1" data-toggle="tab" data-value="">Wealth Distribution</a>
-                </li>
+                </li> -->
                 <li class="" id="li-tab-2" role="presentation">
                     <a id="ui-tab-2" href="#tab-2" data-toggle="tab" data-value="">Racial Wealth Gap</a>
                 </li>
@@ -66,15 +65,15 @@
                 <li class="" id="li-tab-7" role="presentation">
                     <a id="ui-tab-7" href="#tab-7" data-toggle="tab" data-value="">Descriptive Statistics</a>
                 </li>
-                <li class="" id="li-tab-4" role="presentation">
+                <!-- <li class="" id="li-tab-4" role="presentation">
                     <a id="ui-tab-4" href="#tab-4" data-toggle="tab" data-value="">Aggregates</a>
-                </li>
+                </li> -->
                 <li class="" id="li-tab-5" role="presentation">
                     <a id="ui-tab-5" href="#tab-5" data-toggle="tab" data-value="">Share of Wealth</a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="tab-0" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0">
+                <div id="tab-0" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="true" aria-labelledby="ui-tab-0">
                     <br>
                     <h3>[Add "About" header here!]</h3>
                     <p>[Add "About" text here!]</p>
@@ -82,7 +81,7 @@
                         Add link to methods here! (Replace the link in "href" with a link to your methods.)
                     </a></p>
                 </div>
-                <div id="tab-1" class="tab-pane active" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1">
+                <div id="tab-1" class="tab-pane" data-value="" role="tabpanel" tabindex="-1" aria-hidden="false" aria-labelledby="ui-tab-1">
                     <p></p>
                     <div id="overlay">
                         <div class="tab-pane" id="filter-4">
@@ -453,13 +452,13 @@
                 .style("stroke-solid","5,5")//dashed array for line
                 .style("stroke", "lightgray")
                 .style("stroke-width",2);
-            d3.select("#legend-3").append("line").attr("x1", 30)
-                .attr("x2", 60)
-                .attr("y1", 100)
-                .attr("y2", 100)
-                .style("stroke-solid","5,5")//dashed array for line
-                .style("stroke", "#FF9900")
-                .style("stroke-width",2);
+            // d3.select("#legend-3").append("line").attr("x1", 30)
+            //     .attr("x2", 60)
+            //     .attr("y1", 100)
+            //     .attr("y2", 100)
+            //     .style("stroke-solid","5,5")//dashed array for line
+            //     .style("stroke", "#FF9900")
+            //     .style("stroke-width",2);
             d3.select("#legend-3").append("text").attr("x", 100).attr("y", 25)
                 .text("Observed  - Share of Wealth Garnered by Households Above Tax Threshold")
                 .style("font-size", "15px")
@@ -472,10 +471,10 @@
                 .text("Simulated Post-Tax - Share of Wealth Garnered by Households Above Tax Threshold")
                 .style("font-size", "15px")
                 .attr("alignment-baseline","middle")
-            d3.select("#legend-3").append("text").attr("x", 100).attr("y", 100)
-                .text("Year t - Simulated Share of Wealth Garnered by Households Above Tax Threshold")
-                .style("font-size", "15px")
-                .attr("alignment-baseline","middle")
+            // d3.select("#legend-3").append("text").attr("x", 100).attr("y", 100)
+            //     .text("Year t - Simulated Share of Wealth Garnered by Households Above Tax Threshold")
+            //     .style("font-size", "15px")
+            //     .attr("alignment-baseline","middle")
 
             // Append SVGs to tab-content to draw charts
             let svg_1 = d3.select("#tab-1").append("svg")
