@@ -41,13 +41,13 @@ data=<dataset variable name>,
 
 *May be different from “x_axis_val” if you want to use the same x-axis across different charts.
 
-`drawTable(
+```drawTable(
    data=<dataset variable name>,
    svg=<the ID of the SVG you want the chart bound to>,
    table_id=<the ID of the table you want to draw>,
    columns=[<the column names you want to use (these need to be the exact column names from the CSV file)>],
    filter_var=<The variable you want to use to filter data, or null>,
-   filter_value=<The value you want to filter for, or null>);`
+   filter_value=<The value you want to filter for, or null>);```
 
 
 ### Change the Dashboard Styling
