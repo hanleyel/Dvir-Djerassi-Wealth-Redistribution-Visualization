@@ -1,5 +1,5 @@
 # Wealth Redistribution Visualization
-Asher Dvir-Djerassi, University of Michigan Center for Inequality Dynamics
+Asher Dvir-Djerassi, University of Michigan Center for Inequality Dynamics<br>
 Liz Hanley, University of Michigan Institute for Social Research Population Studies Center
 
 ## Project Description
@@ -63,7 +63,7 @@ Issue Tracking: https://github.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-
 This project was produced through the support of the University of Michigan Center for Inequality Dynamics and the Institute for Social Research Population Studies Center.
 
 ## Citation
-Dvir-Djerassi, A.; Hanley, E. 2021. Wealth Redistribution Visualization. https://github.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization (<date accessed>).
+Dvir-Djerassi, A.; Hanley, E. 2021. Wealth Redistribution Visualization. https://github.com/hanleyel/Dvir-Djerassi-Wealth-Redistribution-Visualization (\<date accessed\>).
 
 ## Contact
 For research questions, contact Asher Dvir-Djerassi at asherd@umich.edu<br>
