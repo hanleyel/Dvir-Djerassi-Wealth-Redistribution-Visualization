@@ -24,30 +24,30 @@ You will need to be sure that the index of your data URL within the “files” 
 ### Update a Chart or  Table
 To update and existing chart, you can simply change the arguments in its associated function call.
 
-`drawLineChart(
-   data=<dataset variable name>,
-   svg=<the ID of the SVG you want your chart bound to>,
-   draw_line_only=<false (do you want to draw the whole chart or only the line portion)>,
-   stroke_type="stroke-solid",
-   stroke_color="#3da4ab",
-   x_axis_var=<The variable you want to use to draw the x-axis>*,
-   y_axis_var=<The variable you want to use to draw the y-axis>,
-   x_axis_val=<The data you want to map onto the x-axis>,
-   y_axis_val=<The data you want to map onto the y-axis>,
-   filter_var=<The variable you want to use to filter data, or null>,
-   filter_value=<The value you want to filter for, or null>,
-   parse_time=false,
-   area_chart=true);`
+`drawLineChart(<br>
+   data=<dataset variable name>,<br>
+   svg=<the ID of the SVG you want your chart bound to>,<br>
+   draw_line_only=<false (do you want to draw the whole chart or only the line portion)>,<br>
+   stroke_type="stroke-solid",<br>
+   stroke_color="#3da4ab",<br>
+   x_axis_var=<The variable you want to use to draw the x-axis>*,<br>
+   y_axis_var=<The variable you want to use to draw the y-axis>,<br>
+   x_axis_val=<The data you want to map onto the x-axis>,<br>
+   y_axis_val=<The data you want to map onto the y-axis>,<br>
+   filter_var=<The variable you want to use to filter data, or null>,<br>
+   filter_value=<The value you want to filter for, or null>,<br>
+   parse_time=false,<br>
+   area_chart=true);`<br>
 
 *May be different from “x_axis_val” if you want to use the same x-axis across different charts.
 
-`drawTable(
-   data=<dataset variable name>,
-   svg=<the ID of the SVG you want the chart bound to>,
-   table_id=<the ID of the table you want to draw>,
-   columns=[<the column names you want to use (these need to be the exact column names from the CSV file)>],
-   filter_var=<The variable you want to use to filter data, or null>,
-   filter_value=<The value you want to filter for, or null>);`
+`drawTable(<br>
+   data=<dataset variable name>,<br>
+   svg=<the ID of the SVG you want the chart bound to>,<br>
+   table_id=<the ID of the table you want to draw>,<br>
+   columns=[<the column names you want to use (these need to be the exact column names from the CSV file)>],<br>
+   filter_var=<The variable you want to use to filter data, or null>,<br>
+   filter_value=<The value you want to filter for, or null>);`<br>
 
 
 ### Change the Dashboard Styling
