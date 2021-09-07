@@ -24,7 +24,8 @@ You will need to be sure that the index of your data URL within the “files” 
 ### Update a Chart or  Table
 To update and existing chart, you can simply change the arguments in its associated function call.
 
-```drawLineChart(  
+```
+drawLineChart(  
 data=<dataset variable name>,
    svg=<the ID of the SVG you want your chart bound to>,
    draw_line_only=<false (do you want to draw the whole chart or only the line portion)>,
@@ -37,17 +38,20 @@ data=<dataset variable name>,
    filter_var=<The variable you want to use to filter data, or null>,
    filter_value=<The value you want to filter for, or null>,
    parse_time=false,
-   area_chart=true);```
+   area_chart=true);
+   ```
 
 *May be different from “x_axis_val” if you want to use the same x-axis across different charts.
 
-```drawTable(
+```
+drawTable(
    data=<dataset variable name>,
    svg=<the ID of the SVG you want the chart bound to>,
    table_id=<the ID of the table you want to draw>,
    columns=[<the column names you want to use (these need to be the exact column names from the CSV file)>],
    filter_var=<The variable you want to use to filter data, or null>,
-   filter_value=<The value you want to filter for, or null>);```
+   filter_value=<The value you want to filter for, or null>);
+   ```
 
 
 ### Change the Dashboard Styling
