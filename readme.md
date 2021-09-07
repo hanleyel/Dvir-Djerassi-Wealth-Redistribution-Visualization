@@ -24,9 +24,12 @@ You will need to be sure that the index of your data URL within the “files” 
 ### Update a Chart or  Table
 To update and existing chart, you can simply change the arguments in its associated function call.
 
-`drawLineChart(<br/>
-data=<dataset variable name>,<br/>
-   svg=<the ID of the SVG you want your chart bound to>,<br/>
+`drawLineChart(
+
+data=<dataset variable name>,
+
+   svg=<the ID of the SVG you want your chart bound to>,
+   
    draw_line_only=<false (do you want to draw the whole chart or only the line portion)>,
    stroke_type="stroke-solid",
    stroke_color="#3da4ab",
