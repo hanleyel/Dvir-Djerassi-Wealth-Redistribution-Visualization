@@ -193,18 +193,20 @@ li .active{
     padding:0 !important;
 }
 
-.row{
-    min-height:500px;
-    display:flex;
-    flex-direction:row;
+.row {
+    min-height: 500px;
+    display: flex;
+    flex-direction: row;
 }
 
 table, th, td {
     border: 1px solid black;
     margin-left:auto;
     margin-right:auto;
+    text-align:center;
 }
 
+/* Style elements for screens smaller than 800px wide (i.e., mobile) */
 @media screen and (max-width: 800px) {
     .filter-container{
         height:20%;

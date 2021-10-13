@@ -134,6 +134,24 @@
     $(document).ready(function(){
         console.log('Document loaded')
 
+        // Dynamic sizing
+        var VIEWBOX_DEFAULT_WIDTH = window.innerWidth;
+        var VIEWBOX_DEFAULT_HEIGHT = window.innerHeight*.65;
+
+        // Get width and height based on browser window size
+        const browser_width = window.innerWidth;
+        const browser_height = window.innerHeight;
+        console.log(browser_width);
+        console.log(browser_height);
+
+        // Gets width and height based on div size
+        // const width = (d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right)*.95;
+        // const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
+        const width = browser_width*.7
+        const height = browser_height*.5
+        console.log(width);
+        console.log(height);
+
         // Change which chart shows and which filter cards show on click
         $('.nav-tab li').on('click', function(){
             $('.nav-tab .active').removeClass('active');
@@ -289,19 +307,7 @@
             // Set constants
             const margin = {top: 10, right: 80, bottom: 30, left: 80}
 
-            // Get width and height based on browser window size
-            const browser_width = window.innerWidth;
-            const browser_height = window.innerHeight;
-            console.log(browser_width);
-            console.log(browser_height);
 
-            // Gets width and height based on div size
-            // const width = (d3.select('.tabbable').node().getBoundingClientRect().width - margin.left - margin.right)*.95;
-            // const height = d3.select('.tabbable').node().getBoundingClientRect().height - margin.top - margin.bottom;
-            const width = browser_width*.7
-            const height = browser_height*.5
-            console.log(width);
-            console.log(height);
 
             // parse the date / time
             var parseTime = d3.timeParse("%Y");
@@ -452,13 +458,6 @@
                 .style("stroke-solid","5,5")//dashed array for line
                 .style("stroke", "lightgray")
                 .style("stroke-width",2);
-            // d3.select("#legend-3").append("line").attr("x1", 30)
-            //     .attr("x2", 60)
-            //     .attr("y1", 100)
-            //     .attr("y2", 100)
-            //     .style("stroke-solid","5,5")//dashed array for line
-            //     .style("stroke", "#FF9900")
-            //     .style("stroke-width",2);
             d3.select("#legend-3").append("text").attr("x", 100).attr("y", 25)
                 .text("Observed  - Share of Wealth Garnered by Households Above Tax Threshold")
                 .style("font-size", "15px")
@@ -471,18 +470,10 @@
                 .text("Simulated Post-Tax - Share of Wealth Garnered by Households Above Tax Threshold")
                 .style("font-size", "15px")
                 .attr("alignment-baseline","middle")
-            // d3.select("#legend-3").append("text").attr("x", 100).attr("y", 100)
-            //     .text("Year t - Simulated Share of Wealth Garnered by Households Above Tax Threshold")
-            //     .style("font-size", "15px")
-            //     .attr("alignment-baseline","middle")
 
-            // Append SVGs to tab-content to draw charts
             let svg_1 = d3.select("#tab-1").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 " + VIEWBOX_DEFAULT_WIDTH + " " + VIEWBOX_DEFAULT_HEIGHT)
                 .attr("id", "svg-1");
             svg_1.append("text")
                 .attr("class", "x label")
@@ -499,25 +490,16 @@
                 .attr("transform", "rotate(-90)")
                 .text("Share of Wealth (in U.S. Dollars)");
             d3.select("#tab-2").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "-20 -15 " + width*1.05 + " " + height*1.1)
                 .attr("id", "svg-2");
             d3.select("#tab-3").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "-20 -15 " + width*1.05 + " " + height*1.1)
                 .attr("id", "svg-3");
             d3.select("#tab-6").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "-20 -15 " + width*1.05 + " " + height*1.1)
                 .attr("id", "svg-6");
 
             // Functions to draw and update axes
@@ -589,7 +571,7 @@
                         .y(function(d) {
                             return y(d[y_axis_val])})
                     )
-                    .attr("class",'linechart');
+                    .attr("class",'linechart svg-content');
 
                 // Add circles for tooltip (tooltip doesn't work well on path)
                 let circle = d3.select(svg).selectAll("circle_"+y_axis_val.replaceAll(" ","_").replaceAll("&","_"))
@@ -671,6 +653,9 @@
                                 split_column.splice(8,0,'<br>')
                             }
                             column = split_column.join(' ')
+                            if (column.includes("Tax Rate")){
+                                column = "Tax Rate on Top 1%"
+                            }
                         }
                         return column
                     });
