@@ -967,22 +967,14 @@
                 filter_value=null);
 
             drawTable(
-                data=wealth_tax_revenue_data,
-                svg="#tab-4",
-                table_id="aggregate-table",
-                columns=["Year","Taxable.Wealth","Wealth.Tax.Revenue","Total.Net.Private.Wealth",
-                    "Wealth.Endowment.Per.Person"],
-                filter_var="Tax.Rate",
-                filter_value="1");
-
-            drawTable(
-                data=wealth_tax_revenue_data,
+                data=share_taxable_wealth_data,
                 svg="#tab-5",
-                table_id="revenue-table",
-                columns=["Year", "Pre.Tax.Top.1..Share", "Post.Tax.Top.1..Share",
-                "Post.Tax.and.Post.Transfer.Top.1..Share"],
-                filter_var="Tax.Rate",
-                filter_value="1");
+                table_id="aggregate-table",
+                columns=["","Observed Share of Wealth Garnered by Households Above Tax Threshold",
+                    "Simulated Post-Tax Share of Wealth Garnered by Households Above Tax Threshold",
+                    "Simulated Post-Tax and Transfer Share of Wealth Garnered by Households Above Tax Threshold"],
+                filter_var=null,
+                filter_value=null);
             }
 
             update_charts(racial_wealth_gap_1_15,
