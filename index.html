@@ -5,8 +5,10 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -374,14 +376,14 @@
                 .attr("y1", 50)
                 .attr("y2", 50)
                 .style("stroke-solid","5,5")//dashed array for line
-                .style("stroke", "#3da4ab")
+                .style("stroke", "#0075bc")
                 .style("stroke-width",2);
             d3.select("#legend-1").append("line").attr("x1", 30)
                 .attr("x2", 60)
                 .attr("y1", 100)
                 .attr("y2", 100)
                 .style("stroke-dasharray","5,5")//dashed array for line
-                .style("stroke", "#3da4ab")
+                .style("stroke", "#0075bc")
                 .style("stroke-width",2);
             d3.select("#legend-1").append("text").attr("x", 100).attr("y", 50)
                 .text("Racial Wealth Gap - Observed")
@@ -397,28 +399,28 @@
                 .attr("y1", 25)
                 .attr("y2", 25)
                 .style("stroke-dasharray","5,5")//dashed array for line
-                .style("stroke", "#3da4ab")
+                .style("stroke", "#0075bc")
                 .style("stroke-width",2);
             d3.select("#legend-2").append("line").attr("x1", 30)
                 .attr("x2", 60)
                 .attr("y1", 50)
                 .attr("y2", 50)
                 .style("stroke-solid","5,5")//dashed array for line
-                .style("stroke", "#3da4ab")
+                .style("stroke", "#0075bc")
                 .style("stroke-width",2);
             d3.select("#legend-2").append("line").attr("x1", 30)
                 .attr("x2", 60)
                 .attr("y1", 75)
                 .attr("y2", 75)
                 .style("stroke-dasharray","5,5")//dashed array for line
-                .style("stroke", "#FF9900")
+                .style("stroke", "#c5050c")
                 .style("stroke-width",2);
             d3.select("#legend-2").append("line").attr("x1", 30)
                 .attr("x2", 60)
                 .attr("y1", 100)
                 .attr("y2", 100)
                 .style("stroke-solid","5,5")//dashed array for line
-                .style("stroke", "#FF9900")
+                .style("stroke", "#c5050c")
                 .style("stroke-width",2);
             d3.select("#legend-2").append("text").attr("x", 100).attr("y", 25)
                 .text("Median White - Observed")
@@ -442,14 +444,14 @@
                 .attr("y1", 25)
                 .attr("y2", 25)
                 .style("stroke-solid","5,5")//dashed array for line
-                .style("stroke", "#3da4ab")
+                .style("stroke", "#0075bc")
                 .style("stroke-width",2);
             d3.select("#legend-3").append("line").attr("x1", 30)
                 .attr("x2", 60)
                 .attr("y1", 50)
                 .attr("y2", 50)
                 .style("stroke-dasharray","5,5")//dashed array for line
-                .style("stroke", "#FF9900")
+                .style("stroke", "#c5050c")
                 .style("stroke-width",2);
             d3.select("#legend-3").append("line").attr("x1", 30)
                 .attr("x2", 60)
@@ -773,7 +775,7 @@
                     svg="#svg-1",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=percentiles,
                     y_axis_var=networth,
                     x_axis_val="Percentiles",
@@ -798,7 +800,7 @@
                 svg="#svg-1",
                 draw_line_only=false,
                 stroke_type="stroke-solid",
-                stroke_color="#3da4ab",
+                stroke_color="#0075bc",
                 x_axis_var=percentiles,
                 y_axis_var=networth,
                 x_axis_val="Percentiles",
@@ -818,7 +820,7 @@
                     svg="#svg-2",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=years,
                     y_axis_var=observed,
                     x_axis_val="Year_timeparsed",
@@ -832,7 +834,7 @@
                     svg="#svg-2",
                     draw_line_only=true,
                     stroke_type="stroke-dasharray",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=years,
                     y_axis_var=observed,
                     x_axis_val="Year_timeparsed",
@@ -848,7 +850,7 @@
                     svg="#svg-6",
                     draw_line_only=false,
                     stroke_type="stroke-dasharray",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=years,
                     y_axis_var=median_white,
                     x_axis_val="Year_timeparsed",
@@ -862,7 +864,7 @@
                     svg="#svg-6",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=years,
                     y_axis_var=median_white,
                     x_axis_val="Year_timeparsed",
@@ -876,7 +878,7 @@
                     svg="#svg-6",
                     draw_line_only=false,
                     stroke_type="stroke-dasharray",
-                    stroke_color="#FF9900",
+                    stroke_color="#c5050c",
                     x_axis_var=years,
                     y_axis_var=median_white,
                     x_axis_val="Year_timeparsed",
@@ -890,7 +892,7 @@
                     svg="#svg-6",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#FF9900",
+                    stroke_color="#c5050c",
                     x_axis_var=years,
                     y_axis_var=median_white,
                     x_axis_val="Year_timeparsed",
@@ -906,7 +908,7 @@
                     svg="#svg-3",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#3da4ab",
+                    stroke_color="#0075bc",
                     x_axis_var=years,
                     y_axis_var=wealth_garnered,
                     x_axis_val="Year_timeparsed",
@@ -934,7 +936,7 @@
                     svg="#svg-3",
                     draw_line_only=false,
                     stroke_type="stroke-dasharray",
-                    stroke_color="#FF9900",
+                    stroke_color="#c5050c",
                     x_axis_var=years,
                     y_axis_var=wealth_garnered,
                     x_axis_val="Year_timeparsed",
@@ -948,7 +950,7 @@
                     svg="#svg-3",
                     draw_line_only=false,
                     stroke_type="stroke-solid",
-                    stroke_color="#FF9900",
+                    stroke_color="#c5050c",
                     x_axis_var=years,
                     y_axis_var=wealth_garnered,
                     x_axis_val="Year_timeparsed",

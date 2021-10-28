@@ -1,30 +1,31 @@
 a{
-    color:#0e9aa7
+    color:#0075bc;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 h1{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 h2{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 h3{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 h4{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 p{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 text{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-weight:bold;
 }
 
 label{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 body{
@@ -34,7 +35,7 @@ body{
 }
 
 .area {
-    fill: #3da4ab;
+    fill: #0075bc;
 }
 
 .button{
