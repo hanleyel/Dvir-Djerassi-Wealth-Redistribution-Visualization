@@ -32,6 +32,7 @@ body{
     height:100%;
     flex-direction:column;
     background-color:#Fdfdfd;
+    padding-bottom:2.5rem;
 }
 
 .area {
@@ -277,4 +278,22 @@ table, th, td {
         box-shadow:1px 2px 5px 1px 	#D3D3D3;
         z-index: 10;
     }
+}
+
+footer {
+    position:relative;
+    bottom:0;
+    left:0;
+    min-height:2.5rem;
+    width:100%;
+    margin-top:20px;
+    padding-bottom:20px;
+    margin-left:10px;
+}
+
+.um_support_statement {
+    font-size: 16px;
+    text-align:left;
+    vertical-align:top;
+    min-height:75px;
 }
